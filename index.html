@@ -10,6 +10,10 @@
       --muted:#a8557a;       
       --accent:#ec4899;      
       --glass: rgba(255,182,193,0.2); 
+      --good: #4caf50;       /* Màu cho tóc khỏe */
+      --medium: #ff9800;     /* Màu cho tóc trung bình */
+      --weak: #f44336;       /* Màu cho tóc yếu */
+      --critical: #9c27b0;   /* Màu cho tóc hư tổn nặng */
     }
     body {
       font-family: Inter, ui-sans-serif, system-ui, Segoe UI, Roboto, Helvetica, Arial;
@@ -25,7 +29,7 @@
       border-radius: 16px;
       box-shadow: 0 4px 20px rgba(0,0,0,0.1);
       padding: 30px;
-      max-width: 700px;
+      max-width: 800px;
       width: 100%;
     }
     h1 {
@@ -78,12 +82,102 @@
       border-radius: 8px;
       cursor: pointer;
       font-size: 16px;
+      font-weight: bold;
+      transition: all 0.3s;
+    }
+    button:hover {
+      opacity: 0.9;
+      transform: translateY(-2px);
     }
     .result {
       margin-top: 20px;
-      padding: 15px;
+      padding: 20px;
       background: var(--glass);
       border-radius: 12px;
+      display: none;
+    }
+    .result-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    .average-score {
+      font-size: 24px;
+      font-weight: bold;
+      padding: 10px 20px;
+      border-radius: 20px;
+      color: white;
+    }
+    .score-good {
+      background-color: var(--good);
+    }
+    .score-medium {
+      background-color: var(--medium);
+    }
+    .score-weak {
+      background-color: var(--weak);
+    }
+    .score-critical {
+      background-color: var(--critical);
+    }
+    .evaluation {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .recommendation {
+      padding: 15px;
+      border-left: 4px solid var(--accent);
+      background-color: rgba(255, 255, 255, 0.7);
+      border-radius: 0 8px 8px 0;
+      margin-bottom: 15px;
+    }
+    .recommendation-title {
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: var(--muted);
+    }
+    .guide-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .guide-table th {
+      background-color: var(--accent);
+      color: white;
+      padding: 12px;
+      text-align: left;
+    }
+    .guide-table td {
+      padding: 12px;
+      border-bottom: 1px solid #eee;
+    }
+    .guide-table tr:last-child td {
+      border-bottom: none;
+    }
+    .guide-table tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+    .rating-good {
+      color: var(--good);
+      font-weight: bold;
+    }
+    .rating-medium {
+      color: var(--medium);
+      font-weight: bold;
+    }
+    .rating-weak {
+      color: var(--weak);
+      font-weight: bold;
+    }
+    .rating-critical {
+      color: var(--critical);
+      font-weight: bold;
     }
   </style>
 </head>
@@ -171,7 +265,47 @@
       <button type="button" onclick="calculateAverage()">Tính điểm trung bình</button>
     </form>
 
-    <div class="result" id="result"></div>
+    <div class="result" id="result">
+      <div class="result-header">
+        <h2>Kết quả & khuyến nghị</h2>
+        <div class="average-score" id="averageScore"></div>
+      </div>
+      
+      <div class="evaluation" id="evaluation"></div>
+      
+      <div class="recommendation">
+        <div class="recommendation-title">Hướng dẫn dịch vụ:</div>
+        <div id="recommendationText"></div>
+      </div>
+      
+      <table class="guide-table">
+        <tr>
+          <th>Điểm trung bình</th>
+          <th>Đánh giá</th>
+          <th>Hướng dẫn dịch vụ</th>
+        </tr>
+        <tr>
+          <td class="rating-good">4.0 – 5.0</td>
+          <td>Tóc khỏe</td>
+          <td>Có thể thực hiện uốn/duỗi/nhuộm. Chỉ cần chăm dưỡng cơ bản.</td>
+        </tr>
+        <tr>
+          <td class="rating-medium">3.0 – 3.9</td>
+          <td>Tóc trung bình</td>
+          <td>Nên phục hồi nhẹ trước & sau dịch vụ hóa chất.</td>
+        </tr>
+        <tr>
+          <td class="rating-weak">2.0 – 2.9</td>
+          <td>Tóc yếu</td>
+          <td>Hạn chế hóa chất mạnh. Khuyến nghị phục hồi chuyên sâu.</td>
+        </tr>
+        <tr>
+          <td class="rating-critical">&lt; 2.0</td>
+          <td>Hư tổn nặng</td>
+          <td>Không nên làm hóa chất. Tập trung phục hồi, cắt tỉa.</td>
+        </tr>
+      </table>
+    </div>
   </div>
 
   <script>
@@ -198,12 +332,49 @@
           count++;
         }
       }
+      
       if (count > 0) {
         const avg = (total / count).toFixed(2);
         const name = document.getElementById('name').value || "Khách hàng";
-        document.getElementById('result').innerText = `${name} - Điểm trung bình: ${avg}`;
+        
+        // Hiển thị kết quả
+        document.getElementById('result').style.display = 'block';
+        document.getElementById('averageScore').textContent = `Điểm: ${avg}`;
+        
+        // Xác định đánh giá và khuyến nghị
+        let evaluation, recommendation, scoreClass;
+        
+        if (avg >= 4.0) {
+          evaluation = "Tóc khỏe";
+          recommendation = "Có thể thực hiện uốn/duỗi/nhuộm. Chỉ cần chăm dưỡng cơ bản.";
+          scoreClass = "score-good";
+        } else if (avg >= 3.0) {
+          evaluation = "Tóc trung bình";
+          recommendation = "Nên phục hồi nhẹ trước & sau dịch vụ hóa chất.";
+          scoreClass = "score-medium";
+        } else if (avg >= 2.0) {
+          evaluation = "Tóc yếu";
+          recommendation = "Hạn chế hóa chất mạnh. Khuyến nghị phục hồi chuyên sâu.";
+          scoreClass = "score-weak";
+        } else {
+          evaluation = "Hư tổn nặng";
+          recommendation = "Không nên làm hóa chất. Tập trung phục hồi, cắt tỉa.";
+          scoreClass = "score-critical";
+        }
+        
+        // Cập nhật giao diện
+        document.getElementById('evaluation').textContent = `Đánh giá: ${evaluation}`;
+        document.getElementById('recommendationText').textContent = recommendation;
+        
+        // Đặt màu cho điểm số
+        const averageScore = document.getElementById('averageScore');
+        averageScore.className = 'average-score ' + scoreClass;
+        
+        // Cuộn đến kết quả
+        document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
+        
       } else {
-        document.getElementById('result').innerText = "Vui lòng chấm điểm tất cả tiêu chí.";
+        alert("Vui lòng chấm điểm tất cả tiêu chí.");
       }
     }
   </script>
