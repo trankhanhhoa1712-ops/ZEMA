@@ -1,237 +1,211 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="vi">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Survey — Overall Average Calculator</title>
+  <meta charset="UTF-8">
+  <title>ZEMA - BẢNG CHẤM ĐIỂM CHẤT TÓC</title>
   <style>
-    :root{--bg:#0f1724;--card:#0b1220;--muted:#94a3b8;--accent:#06b6d4;--glass: rgba(255,255,255,0.03)}
-    body{font-family:Inter,ui-sans-serif,system-ui,Segoe UI,Roboto,Helvetica,Arial; margin:0;background:linear-gradient(180deg,#071024 0%, #07182a 100%);color:#e6eef6}
-    .container{max-width:1000px;margin:36px auto;padding:24px}
-    header{display:flex;align-items:center;gap:16px;margin-bottom:18px}
-    h1{margin:0;font-size:20px}
-    p.lead{margin:0;color:var(--muted);font-size:13px}
-    .card{background:var(--card);border-radius:12px;padding:18px;margin-bottom:12px;box-shadow:0 6px 18px rgba(2,6,23,0.6)}
-    .grid{display:grid;grid-template-columns:1fr 360px;gap:16px}
-    label{display:block;margin-bottom:6px;color:var(--muted);font-size:13px}
-    .question{margin-bottom:14px}
-    .options{display:flex;gap:10px;flex-wrap:wrap}
-    .option{background:var(--glass);padding:8px 10px;border-radius:8px;cursor:pointer;user-select:none}
-    input[type=radio]{display:none}
-    .option input:checked + span{outline:2px solid rgba(6,182,212,0.15)}
-    .btn{display:inline-block;padding:10px 14px;border-radius:10px;background:linear-gradient(90deg,var(--accent),#0891b2);color:#042028;border:none;cursor:pointer;font-weight:600}
-    .small{font-size:13px;color:var(--muted)}
-    table{width:100%;border-collapse:collapse;margin-top:8px}
-    th,td{padding:8px 6px;text-align:left;border-bottom:1px solid rgba(255,255,255,0.03);font-size:13px}
-    .muted{color:var(--muted)}
-    .pill{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.03);font-weight:600}
-    footer.small{color:var(--muted);margin-top:8px}
-    .stat{display:flex;gap:12px;align-items:center}
-    .big{font-size:32px;font-weight:700}
-    .sub{font-size:12px;color:var(--muted)}
-    .controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-    .export{background:transparent;color:var(--accent);border:1px solid rgba(6,182,212,0.12);padding:8px 10px;border-radius:8px;cursor:pointer}
-    @media(max-width:900px){.grid{grid-template-columns:1fr;}.container{padding:12px}} 
+    :root {
+      --bg:#ffe6f0;          
+      --card:#ffffff;        
+      --muted:#a8557a;       
+      --accent:#ec4899;      
+      --glass: rgba(255,182,193,0.2); 
+    }
+    body {
+      font-family: Inter, ui-sans-serif, system-ui, Segoe UI, Roboto, Helvetica, Arial;
+      margin: 0;
+      background: linear-gradient(180deg,#ffe6f0 0%, #fff0f6 100%);
+      color: #3a0d1d;
+      display: flex;
+      justify-content: center;
+      padding: 20px;
+    }
+    .container {
+      background: var(--card);
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      padding: 30px;
+      max-width: 700px;
+      width: 100%;
+    }
+    h1 {
+      text-align: center;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+    .info {
+      margin-bottom: 20px;
+    }
+    label {
+      font-weight: bold;
+    }
+    input {
+      margin-top: 5px;
+      margin-bottom: 15px;
+      padding: 8px;
+      width: 100%;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    .question {
+      margin: 20px 0;
+    }
+    .stars {
+      display: flex;
+      flex-direction: row-reverse;
+      justify-content: flex-end;
+    }
+    .stars input {
+      display: none;
+    }
+    .stars label {
+      font-size: 30px;
+      color: #ccc;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .stars input:checked ~ label,
+    .stars label:hover,
+    .stars label:hover ~ label {
+      color: var(--accent);
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .result {
+      margin-top: 20px;
+      padding: 15px;
+      background: var(--glass);
+      border-radius: 12px;
+    }
   </style>
 </head>
 <body>
   <div class="container">
-    <header>
-      <div>
-        <h1>Survey — Overall Average Calculator</h1>
-        <p class="lead">Single-file page. Collect responses, auto-calc per-respondent average and overall averages. Data persists in localStorage.</p>
-      </div>
-    </header>
+    <h1>ZEMA - BẢNG CHẤM ĐIỂM CHẤT TÓC</h1>
 
-    <div class="grid">
-      <section class="card" id="surveyCard">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-          <strong>Survey</strong>
-          <div class="controls">
-            <button class="export" id="btnClear">Clear all data</button>
-            <button class="export" id="btnExport">Export CSV</button>
-          </div>
-        </div>
+    <div class="info">
+      <label for="name">Tên khách hàng:</label>
+      <input type="text" id="name" placeholder="Nhập tên khách hàng">
 
-        <form id="surveyForm">
-          <div id="questions"></div>
+      <label for="dob">Ngày sinh:</label>
+      <input type="date" id="dob" onchange="calculateAge()">
 
-          <div style="margin-top:12px;display:flex;gap:10px;align-items:center">
-            <input type="text" id="respondentName" placeholder="Tên người trả lời (optional)" style="flex:1;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:inherit">
-            <button class="btn" type="submit">Submit</button>
-          </div>
-        </form>
-
-        <p class="small" style="margin-top:10px">Note: this implementation stores data locally in your browser. For multi-user / server persistence you'll need a backend or Google Sheets integration.</p>
-      </section>
-
-      <aside class="card">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-          <strong>Statistics</strong>
-          <span class="muted">Responses: <span id="respCount">0</span></span>
-        </div>
-
-        <div class="stat" style="margin-bottom:8px">
-          <div>
-            <div class="big" id="overallByAnswer">0.00</div>
-            <div class="sub">Average of all answers (global mean)</div>
-          </div>
-        </div>
-
-        <div class="stat" style="margin-top:12px">
-          <div>
-            <div class="big" id="overallByRespondent">0.00</div>
-            <div class="sub">Average of respondents' averages (per-respondent mean)</div>
-          </div>
-        </div>
-
-        <div style="margin-top:12px">
-          <strong>Latest submissions</strong>
-          <table id="respTable"><thead><tr><th>#</th><th>Name</th><th>Avg</th></tr></thead><tbody></tbody></table>
-        </div>
-        <footer class="small">Tip: each question can use any numeric options. This page treats answers as numbers when present.</footer>
-      </aside>
+      <div id="ageDisplay"></div>
     </div>
 
+    <form id="surveyForm">
+      <div class="question">
+        <p>1. Độ dày sợi tóc</p>
+        <div class="stars">
+          <input type="radio" id="q1-5" name="q1" value="5"><label for="q1-5">★</label>
+          <input type="radio" id="q1-4" name="q1" value="4"><label for="q1-4">★</label>
+          <input type="radio" id="q1-3" name="q1" value="3"><label for="q1-3">★</label>
+          <input type="radio" id="q1-2" name="q1" value="2"><label for="q1-2">★</label>
+          <input type="radio" id="q1-1" name="q1" value="1"><label for="q1-1">★</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <p>2. Mật độ tóc</p>
+        <div class="stars">
+          <input type="radio" id="q2-5" name="q2" value="5"><label for="q2-5">★</label>
+          <input type="radio" id="q2-4" name="q2" value="4"><label for="q2-4">★</label>
+          <input type="radio" id="q2-3" name="q2" value="3"><label for="q2-3">★</label>
+          <input type="radio" id="q2-2" name="q2" value="2"><label for="q2-2">★</label>
+          <input type="radio" id="q2-1" name="q2" value="1"><label for="q2-1">★</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <p>3. Độ đàn hồi</p>
+        <div class="stars">
+          <input type="radio" id="q3-5" name="q3" value="5"><label for="q3-5">★</label>
+          <input type="radio" id="q3-4" name="q3" value="4"><label for="q3-4">★</label>
+          <input type="radio" id="q3-3" name="q3" value="3"><label for="q3-3">★</label>
+          <input type="radio" id="q3-2" name="q3" value="2"><label for="q3-2">★</label>
+          <input type="radio" id="q3-1" name="q3" value="1"><label for="q3-1">★</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <p>4. Độ xốp (Porosity)</p>
+        <div class="stars">
+          <input type="radio" id="q4-5" name="q4" value="5"><label for="q4-5">★</label>
+          <input type="radio" id="q4-4" name="q4" value="4"><label for="q4-4">★</label>
+          <input type="radio" id="q4-3" name="q4" value="3"><label for="q4-3">★</label>
+          <input type="radio" id="q4-2" name="q4" value="2"><label for="q4-2">★</label>
+          <input type="radio" id="q4-1" name="q4" value="1"><label for="q4-1">★</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <p>5. Độ bóng – mượt</p>
+        <div class="stars">
+          <input type="radio" id="q5-5" name="q5" value="5"><label for="q5-5">★</label>
+          <input type="radio" id="q5-4" name="q5" value="4"><label for="q5-4">★</label>
+          <input type="radio" id="q5-3" name="q5" value="3"><label for="q5-3">★</label>
+          <input type="radio" id="q5-2" name="q5" value="2"><label for="q5-2">★</label>
+          <input type="radio" id="q5-1" name="q5" value="1"><label for="q5-1">★</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <p>6. Tình trạng bề mặt</p>
+        <div class="stars">
+          <input type="radio" id="q6-5" name="q6" value="5"><label for="q6-5">★</label>
+          <input type="radio" id="q6-4" name="q6" value="4"><label for="q6-4">★</label>
+          <input type="radio" id="q6-3" name="q6" value="3"><label for="q6-3">★</label>
+          <input type="radio" id="q6-2" name="q6" value="2"><label for="q6-2">★</label>
+          <input type="radio" id="q6-1" name="q6" value="1"><label for="q6-1">★</label>
+        </div>
+      </div>
+
+      <button type="button" onclick="calculateAverage()">Tính điểm trung bình</button>
+    </form>
+
+    <div class="result" id="result"></div>
   </div>
 
-<script>
-// --- CONFIG: define questions & their allowed numeric options (can be customized) ---
-const QUESTIONS = [
-  {id:'q1', label:'Satisfaction with product quality', options:[1,2,3,5]},
-  {id:'q2', label:'Satisfaction with service', options:[1,2,3,5]},
-  {id:'q3', label:'Likelihood to recommend', options:[1,2,3,5]},
-  {id:'q4', label:'Overall experience (1-5 stars)', options:[1,2,3,4,5]}
-];
-
-// --- state stored in localStorage key ---
-const STORAGE_KEY = 'survey_overall_avg_responses_v1';
-
-// helpers
-const $ = sel => document.querySelector(sel);
-const $$ = sel => document.querySelectorAll(sel);
-
-function renderQuestions(){
-  const container = document.getElementById('questions');
-  container.innerHTML = '';
-  QUESTIONS.forEach((q,qi)=>{
-    const div = document.createElement('div'); div.className='question';
-    const lab = document.createElement('label'); lab.textContent = (qi+1)+'. '+q.label; div.appendChild(lab);
-    const opts = document.createElement('div'); opts.className='options';
-    q.options.forEach(opt=>{
-      const id = q.id+'_'+opt;
-      const optWrap = document.createElement('label'); optWrap.className='option';
-      const input = document.createElement('input'); input.type='radio'; input.name=q.id; input.value=opt; input.id=id;
-      const span = document.createElement('span'); span.textContent = opt; span.style.fontWeight='600'; span.style.padding='0 6px';
-      optWrap.appendChild(input); optWrap.appendChild(span);
-      opts.appendChild(optWrap);
-    });
-    div.appendChild(opts);
-    container.appendChild(div);
-  });
-}
-
-function loadResponses(){
-  const raw = localStorage.getItem(STORAGE_KEY);
-  if(!raw) return [];
-  try{ return JSON.parse(raw);}catch(e){return []}
-}
-function saveResponses(arr){ localStorage.setItem(STORAGE_KEY, JSON.stringify(arr)); }
-
-function computeStats(responses){
-  // responses: [{name, answers: {q1:1,q2:2...}, timestamp}]
-  const respCount = responses.length;
-  let allValues = [];
-  const perRespondent = [];
-  responses.forEach(r=>{
-    const vals = Object.values(r.answers).filter(v=>!isNaN(v)).map(Number);
-    if(vals.length>0){
-      allValues.push(...vals);
-      const avg = vals.reduce((a,b)=>a+b,0)/vals.length;
-      perRespondent.push(avg);
+  <script>
+    function calculateAge() {
+      const dob = document.getElementById('dob').value;
+      if (!dob) return;
+      const birthDate = new Date(dob);
+      const today = new Date();
+      let age = today.getFullYear() - birthDate.getFullYear();
+      const m = today.getMonth() - birthDate.getMonth();
+      if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+      }
+      document.getElementById('ageDisplay').innerText = `Tuổi: ${age}`;
     }
-  });
-  const overallByAnswer = allValues.length ? (allValues.reduce((a,b)=>a+b,0)/allValues.length) : 0;
-  const overallByRespondent = perRespondent.length ? (perRespondent.reduce((a,b)=>a+b,0)/perRespondent.length) : 0;
-  return {respCount, overallByAnswer, overallByRespondent, perRespondent, allValues};
-}
 
-function renderStats(){
-  const responses = loadResponses();
-  const stats = computeStats(responses);
-  $('#respCount').textContent = stats.respCount;
-  $('#overallByAnswer').textContent = stats.overallByAnswer ? stats.overallByAnswer.toFixed(2) : '0.00';
-  $('#overallByRespondent').textContent = stats.overallByRespondent ? stats.overallByRespondent.toFixed(2) : '0.00';
-
-  const tbody = document.querySelector('#respTable tbody'); tbody.innerHTML='';
-  const latest = responses.slice().reverse().slice(0,8);
-  latest.forEach((r,i)=>{
-    const tr = document.createElement('tr');
-    const idx = document.createElement('td'); idx.textContent = (i+1);
-    const n = document.createElement('td'); n.textContent = r.name || '(anonymous)';
-    const vals = Object.values(r.answers).filter(v=>!isNaN(v)).map(Number);
-    const avg = vals.length ? (vals.reduce((a,b)=>a+b,0)/vals.length).toFixed(2) : '-';
-    const a = document.createElement('td'); a.textContent = avg;
-    tr.appendChild(idx); tr.appendChild(n); tr.appendChild(a);
-    tbody.appendChild(tr);
-  });
-}
-
-// form handling
-function readFormAnswers(form){
-  const answers = {};
-  QUESTIONS.forEach(q=>{
-    const v = form[q.id] ? form[q.id].value : '';
-    answers[q.id] = v!=='' ? Number(v) : null;
-  });
-  return answers;
-}
-
-document.addEventListener('DOMContentLoaded', ()=>{
-  renderQuestions();
-  renderStats();
-
-  const form = document.getElementById('surveyForm');
-  form.addEventListener('submit', (e)=>{
-    e.preventDefault();
-    const formData = new FormData(form);
-    const answers = {};
-    QUESTIONS.forEach(q=>{ answers[q.id] = formData.get(q.id) ? Number(formData.get(q.id)) : null; });
-    const name = document.getElementById('respondentName').value.trim();
-    // require at least one numeric answer
-    const anyAnswer = Object.values(answers).some(v=>v!==null);
-    if(!anyAnswer){ alert('Please answer at least one question.'); return; }
-
-    const responses = loadResponses();
-    responses.push({name: name, answers, timestamp: Date.now()});
-    saveResponses(responses);
-    form.reset(); document.getElementById('respondentName').value='';
-    renderStats();
-    alert('Thank you — response recorded.');
-  });
-
-  $('#btnClear').addEventListener('click', ()=>{
-    if(confirm('Clear all stored responses? This cannot be undone.')){
-      localStorage.removeItem(STORAGE_KEY);
-      renderStats();
+    function calculateAverage() {
+      const form = document.getElementById('surveyForm');
+      let total = 0, count = 0;
+      for (let i = 1; i <= 6; i++) {
+        const rating = form.querySelector(`input[name="q${i}"]:checked`);
+        if (rating) {
+          total += parseInt(rating.value);
+          count++;
+        }
+      }
+      if (count > 0) {
+        const avg = (total / count).toFixed(2);
+        const name = document.getElementById('name').value || "Khách hàng";
+        document.getElementById('result').innerText = `${name} - Điểm trung bình: ${avg}`;
+      } else {
+        document.getElementById('result').innerText = "Vui lòng chấm điểm tất cả tiêu chí.";
+      }
     }
-  });
-
-  $('#btnExport').addEventListener('click', ()=>{
-    const responses = loadResponses();
-    if(!responses.length){ alert('No responses to export.'); return; }
-    // CSV: name,timestamp,q1,q2,...
-    const headers = ['name','timestamp', ...QUESTIONS.map(q=>q.label)];
-    const rows = responses.map(r=>{
-      const row = [ (r.name||''), new Date(r.timestamp).toISOString(), ...QUESTIONS.map(q=> (r.answers[q.id]!==null && r.answers[q.id]!==undefined) ? r.answers[q.id] : '') ];
-      return row.map(cell=> '"'+String(cell).replace(/"/g,'""')+'"').join(',');
-    });
-    const csv = '"'+headers.join('","')+'"\n' + rows.join('\n');
-    const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a'); a.href = url; a.download = 'survey_export.csv'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
-  });
-});
-</script>
+  </script>
 </body>
 </html>
