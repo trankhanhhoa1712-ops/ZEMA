@@ -126,6 +126,18 @@
       font-weight: bold;
       margin-bottom: 10px;
     }
+    .evaluation-good {
+      color: var(--good);
+    }
+    .evaluation-medium {
+      color: var(--medium);
+    }
+    .evaluation-weak {
+      color: var(--weak);
+    }
+    .evaluation-critical {
+      color: var(--critical);
+    }
     .recommendation {
       padding: 15px;
       border-left: 4px solid var(--accent);
@@ -258,6 +270,7 @@
           <input type="radio" id="q6-4" name="q6" value="4"><label for="q6-4">★</label>
           <input type="radio" id="q6-3" name="q6" value="3"><label for="q6-3">★</label>
           <input type="radio" id="q6-2" name="q6" value="2"><label for="q6-2">★</label>
+         极
           <input type="radio" id="q6-1" name="q6" value="1"><label for="q6-1">★</label>
         </div>
       </div>
@@ -286,22 +299,22 @@
         </tr>
         <tr>
           <td class="rating-good">4.0 – 5.0</td>
-          <td>Tóc khỏe</td>
+          <td class="rating-good">Tóc khỏe</td>
           <td>Có thể thực hiện uốn/duỗi/nhuộm. Chỉ cần chăm dưỡng cơ bản.</td>
         </tr>
         <tr>
           <td class="rating-medium">3.0 – 3.9</td>
-          <td>Tóc trung bình</td>
+          <td class="rating-medium">Tóc trung bình</td>
           <td>Nên phục hồi nhẹ trước & sau dịch vụ hóa chất.</td>
         </tr>
         <tr>
           <td class="rating-weak">2.0 – 2.9</td>
-          <td>Tóc yếu</td>
+          <td class="rating-weak">Tóc yếu</td>
           <td>Hạn chế hóa chất mạnh. Khuyến nghị phục hồi chuyên sâu.</td>
         </tr>
         <tr>
           <td class="rating-critical">&lt; 2.0</td>
-          <td>Hư tổn nặng</td>
+          <td class="rating-critical">Hư tổn nặng</td>
           <td>Không nên làm hóa chất. Tập trung phục hồi, cắt tỉa.</td>
         </tr>
       </table>
@@ -342,28 +355,35 @@
         document.getElementById('averageScore').textContent = `Điểm: ${avg}`;
         
         // Xác định đánh giá và khuyến nghị
-        let evaluation, recommendation, scoreClass;
+        let evaluation, recommendation, scoreClass, evaluationClass;
         
         if (avg >= 4.0) {
           evaluation = "Tóc khỏe";
           recommendation = "Có thể thực hiện uốn/duỗi/nhuộm. Chỉ cần chăm dưỡng cơ bản.";
           scoreClass = "score-good";
+          evaluationClass = "evaluation-good";
         } else if (avg >= 3.0) {
           evaluation = "Tóc trung bình";
           recommendation = "Nên phục hồi nhẹ trước & sau dịch vụ hóa chất.";
           scoreClass = "score-medium";
+          evaluationClass = "evaluation-medium";
         } else if (avg >= 2.0) {
           evaluation = "Tóc yếu";
           recommendation = "Hạn chế hóa chất mạnh. Khuyến nghị phục hồi chuyên sâu.";
           scoreClass = "score-weak";
+          evaluationClass = "evaluation-weak";
         } else {
           evaluation = "Hư tổn nặng";
           recommendation = "Không nên làm hóa chất. Tập trung phục hồi, cắt tỉa.";
           scoreClass = "score-critical";
+          evaluationClass = "evaluation-critical";
         }
         
         // Cập nhật giao diện
-        document.getElementById('evaluation').textContent = `Đánh giá: ${evaluation}`;
+        const evaluationElement = document.getElementById('evaluation');
+        evaluationElement.textContent = `Đánh giá: ${evaluation}`;
+        evaluationElement.className = 'evaluation ' + evaluationClass;
+        
         document.getElementById('recommendationText').textContent = recommendation;
         
         // Đặt màu cho điểm số
