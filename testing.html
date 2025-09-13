@@ -1,4 +1,280 @@
-<button type="button" onclick="calculateAverage()">Tính điểm trung bình</button>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>ZEMA - BẢNG CHẤM ĐIỂM CHẤT TÓC</title>
+  <style>
+    :root {
+      --bg:#ffe6f0;          
+      --card:#ffffff;        
+      --muted:#a8557a;       
+      --accent:#ec4899;      
+      --glass: rgba(255,182,193,0.2); 
+      --good: #4caf50;       /* Màu cho tóc khỏe */
+      --medium: #ff9800;     /* Màu cho tóc trung bình */
+      --weak: #f44336;       /* Màu cho tóc yếu */
+      --critical: #9c27b0;   /* Màu cho tóc hư tổn nặng */
+    }
+    body {
+      font-family: Inter, ui-sans-serif, system-ui, Segoe UI, Roboto, Helvetica, Arial;
+      margin: 0;
+      background: linear-gradient(180deg,#ffe6f0 0%, #fff0f6 100%);
+      color: #3a0d1d;
+      display: flex;
+      justify-content: center;
+      padding: 20px;
+    }
+    .container {
+      background: var(--card);
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      padding: 30px;
+      max-width: 800px;
+      width: 100%;
+    }
+    h1 {
+      text-align: center;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+    .info {
+      margin-bottom: 20px;
+    }
+    label {
+      font-weight: bold;
+    }
+    input {
+      margin-top: 5px;
+      margin-bottom: 15px;
+      padding: 8px;
+      width: 100%;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    .question {
+      margin: 20px 0;
+    }
+    .stars {
+      display: flex;
+      flex-direction: row-reverse;
+      justify-content: flex-end;
+    }
+    .stars input {
+      display: none;
+    }
+    .stars label {
+      font-size: 30px;
+      color: #ccc;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .stars input:checked ~ label,
+    .stars label:hover,
+    .stars label:hover ~ label {
+      color: var(--accent);
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+      transition: all 0.3s;
+    }
+    button:hover {
+      opacity: 0.9;
+      transform: translateY(-2px);
+    }
+    .result {
+      margin-top: 20px;
+      padding: 20px;
+      background: var(--glass);
+      border-radius: 12px;
+      display: none;
+    }
+    .result-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    .average-score {
+      font-size: 24px;
+      font-weight: bold;
+      padding: 10px 20px;
+      border-radius: 20px;
+      color: white;
+    }
+    .score-good {
+      background-color: var(--good);
+    }
+    .score-medium {
+      background-color: var(--medium);
+    }
+    .score-weak {
+      background-color: var(--weak);
+    }
+    .score-critical {
+      background-color: var(--critical);
+    }
+    .evaluation {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .evaluation-good {
+      color: var(--good);
+    }
+    .evaluation-medium {
+      color: var(--medium);
+    }
+    .evaluation-weak {
+      color: var(--weak);
+    }
+    .evaluation-critical {
+      color: var(--critical);
+    }
+    .recommendation {
+      padding: 15px;
+      border-left: 4px solid var(--accent);
+      background-color: rgba(255, 255, 255, 0.7);
+      border-radius: 0 8px 8px 0;
+      margin-bottom: 15px;
+    }
+    .recommendation-title {
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: var(--muted);
+    }
+    .guide-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .guide-table th {
+      background-color: var(--accent);
+      color: white;
+      padding: 12px;
+      text-align: left;
+    }
+    .guide-table td {
+      padding: 12px;
+      border-bottom: 1px solid #eee;
+    }
+    .guide-table tr:last-child td {
+      border-bottom: none;
+    }
+    .guide-table tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+    .rating-good {
+      color: var(--good);
+      font-weight: bold;
+    }
+    .rating-medium {
+      color: var(--medium);
+      font-weight: bold;
+    }
+    .rating-weak {
+      color: var(--weak);
+      font-weight: bold;
+    }
+    .rating-critical {
+      color: var(--critical);
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>ZEMA - BẢNG CHẤM ĐIỂM CHẤT TÓC</h1>
+
+    <div class="info">
+      <label for="name">Tên khách hàng:</label>
+      <input type="text" id="name" placeholder="Nhập tên khách hàng">
+
+      <label for="dob">Ngày sinh:</label>
+      <input type="date" id="dob" onchange="calculateAge()">
+
+      <div id="ageDisplay"></div>
+    </div>
+
+    <form id="surveyForm">
+      <div class="question">
+        <p>1. Độ dày sợi tóc</p>
+        <div class="stars">
+          <input type="radio" id="q1-5" name="q1" value="5"><label for="q1-5">★</label>
+          <input type="radio" id="q1-4" name="q1" value="4"><label for="q1-4">★</label>
+          <input type="radio" id="q1-3" name="q1" value="3"><label for="q1-3">★</label>
+          <input type="radio" id="q1-2" name="q1" value="2"><label for="q1-2">★</label>
+          <input type="radio" id="q1-1" name="q1" value="1"><label for="q1-1">★</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <p>2. Mật độ tóc</p>
+        <div class="stars">
+          <input type="radio" id="q2-5" name="q2" value="5"><label for="q2-5">★</label>
+          <input type="radio" id="q2-4" name="q2" value="4"><label for="q2-4">★</label>
+          <input type="radio" id="q2-3" name="q2" value="3"><label for="q2-3">★</label>
+          <input type="radio" id="q2-2" name="q2" value="2"><label for="q2-2">★</label>
+          <input type="radio" id="q2-1" name="q2" value="1"><label for="q2-1">★</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <p>3. Độ đàn hồi</p>
+        <div class="stars">
+          <input type="radio" id="q3-5" name="q3" value="5"><label for="q3-5">★</label>
+          <input type="radio" id="q3-4" name="q3" value="4"><label for="q3-4">★</label>
+          <input type="radio" id="q3-3" name="q3" value="3"><label for="q3-3">★</label>
+          <input type="radio" id="q3-2" name="q3" value="2"><label for="q3-2">★</label>
+          <input type="radio" id="q3-1" name="q3" value="1"><label for="q3-1">★</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <p>4. Độ xốp (Porosity)</p>
+        <div class="stars">
+          <input type="radio" id="q4-5" name="q4" value="5"><label for="q4-5">★</label>
+          <input type="radio" id="q4-4" name="q4" value="4"><label for="q4-4">★</label>
+          <input type="radio" id="q4-3" name="q4" value="3"><label for="q4-3">★</label>
+          <input type="radio" id="q4-2" name="q4" value="2"><label for="q4-2">★</label>
+          <input type="radio" id="q4-1" name="q4" value="1"><label for="q4-1">★</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <p>5. Độ bóng – mượt</p>
+        <div class="stars">
+          <input type="radio" id="q5-5" name="q5" value="5"><label for="q5-5">★</label>
+          <input type="radio" id="q5-4" name="q5" value="4"><label for="q5-4">★</label>
+          <input type="radio" id="q5-3" name="q5" value="3"><label for="q5-3">★</label>
+          <input type="radio" id="q5-2" name="q5" value="2"><label for="q5-2">★</label>
+          <input type="radio" id="q5-1" name="q5" value="1"><label for="q5-1">★</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <p>6. Tình trạng bề mặt</p>
+        <div class="stars">
+          <input type="radio" id="q6-5" name="q6" value="5"><label for="q6-5">★</label>
+          <input type="radio" id="q6-4" name="q6" value="4"><label for="q6-4">★</label>
+          <input type="radio" id="q6-3" name="q6" value="3"><label for="q6-3">★</label>
+          <input type="radio" id="q6-2" name="q6" value="2"><label for="q6-2">★</label>
+          <input type="radio" id="q6-1" name="q6" value="1"><label for="q6-1">★</label>
+        </div>
+      </div>
+
+      <button type="button" onclick="calculateAverage()">Tính điểm trung bình</button>
     </form>
     <div class="result" id="result">
   <div class="result-header">
@@ -73,3 +349,88 @@
             document.getElementById('damage-meter').style.width = `${damagePercent}%`;
             document.getElementById('damage-meter').textContent = `${damagePercent.toFixed(0)}%`;
             
+            // Đặt màu sắc cho thanh tiến trình dựa trên mức độ hư tổn
+            let meterColor;
+            if (damagePercent <= 25) {
+                meterColor = 'linear-gradient(90deg, #4caf50 0%, #8bc34a 100%)';
+            } else if (damagePercent <= 50) {
+                meterColor = 'linear-gradient(90deg, #cddc39 0%, #ffeb3b 100%)';
+            } else if (damagePercent <= 75) {
+                meterColor = 'linear-gradient(90deg, #ffc107 0%, #ff9800 100%)';
+            } else {
+                meterColor = 'linear-gradient(90deg, #ff5722 0%, #f44336 100%)';
+            }
+            document.getElementById('damage-meter').style.background = meterColor;
+            
+            // Đánh giá tình trạng tóc
+            let evaluationText;
+            let recommendations = [];
+            
+            if (score >= 4.5) {
+                evaluationText = "Tóc của bạn khỏe mạnh với mức độ hư tổn tối thiểu. Duy trì chế độ chăm sóc hiện tại.";
+                recommendations = [
+                    "Dưỡng tóc nhẹ nhàng 1 lần/tuần để duy trì",
+                    “Che chắn cho tóc khi ra ngoài",
+                    "Cắt tỉa ngọn định kỳ 3 tháng/lần"
+                ];
+            } else if (score >= 4.0) {
+                evaluationText = "Tóc của bạn ở tình trạng tốt với mức độ hư tổn thấp. Cần chăm sóc định kỳ.";
+                recommendations = [
+                    “Phục hồi chuyên sâu tại salon tóc 1-2 lần/tháng”,
+                    "Dầu dưỡng không cần rửa để bảo vệ tóc hằng ngày",
+                    "Cắt tỉa ngọn 2-3 tháng/lần"
+                ];
+            } else if (score >= 3.0) {
+                evaluationText = "Tóc của bạn có mức độ hư tổn trung bình. Cần phục hồi tích cực hơn.";
+                recommendations = [
+                    "Phục hồi chuyên sâu tại salon với Protein treatment 2 - 3 lần/tháng”,
+                    "Sử dụng serum dưỡng tóc chuyên sâu chứa  Peptide / Protein“,
+                    "Hạn chế sử dụng nhiệt và hóa chất",
+                    "Cắt tỉa ngọn mỗi 6-8 tuần"
+                ];
+            } else if (score >= 2.0) {
+                evaluationText = "Tóc của bạn bị hư tổn khá nặng. Cần chăm sóc đặc biệt và phục hồi chuyên sâu.";
+                recommendations = [
+                    "Phục hồi chuyên sâu keratin 3 - 4 lần/tháng”,
+                    "Sử dụng sản phẩm chứa ceramide và amino acid",
+                    "Tránh hoàn toàn việc sử dụng nhiệt và hóa chất",
+                    "Cắt bỏ phần tóc hư tổn nặng và tỉa ngọn mỗi 4-6 tuần"
+                ];
+            } else {
+                evaluationText = "Tóc của bạn bị hư tổn nghiêm trọng. Cần chăm sóc chuyên nghiệp và cắt bỏ phần hư tổn.";
+                recommendations = [
+                    "Phục hồi chuyên sâu tại salon 1-2 lần/tuần",
+                    "Sử dụng liệu pháp bond building để tái tạo cấu trúc tóc",
+                    "Cắt bỏ phần tóc hư tổn không thể phục hồi",
+                    "Tránh hoàn toàn việc nhuộm, uốn, duỗi trong ít nhất 3 tháng",
+                    “ Bảo vệ tóc khi ra nắng"
+                ];
+            }
+            
+            // Hiển thị đánh giá và đề xuất
+            document.getElementById('evaluation-desc').textContent = evaluationText;
+            
+            const recommendationList = document.getElementById('recommendation-list');
+            recommendationList.innerHTML = '';
+            recommendations.forEach(rec => {
+                const li = document.createElement('li');
+                li.textContent = rec;
+                recommendationList.appendChild(li);
+            });
+            
+            // Hiển thị kết quả
+            document.getElementById('result-section').style.display = 'block';
+            
+            // Cuộn đến kết quả
+            document.getElementById('result-section').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Xử lý sự kiện nhấn Enter trong input
+        document.getElementById('hair-score').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                calculateDamage();
+            }
+        });
+    </script>
+</body>
+</html>
