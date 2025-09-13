@@ -1,0 +1,75 @@
+<button type="button" onclick="calculateAverage()">Tính điểm trung bình</button>
+    </form>
+    <div class="result" id="result">
+  <div class="result-header">
+    <h1>ĐÁNH GIÁ MỨC ĐỘ HƯ TỔN TÓC</h1>
+    <p>Điểm trung bình: <span id="average-score">0</span></p>
+  </div>
+  <div id="recommendation"></div>
+</div>
+        <div class="content">
+            <div class="input-section">
+                <label for="hair-score">Điểm đánh giá chất lượng tóc (thang điểm 5):</label>
+                <input type="number" id="hair-score" min="1" max="5" step="0.1" placeholder="Nhập điểm từ 1 đến 5">
+                <button onclick="calculateDamage()">PHÂN TÍCH MỨC ĐỘ HƯ TỔN</button>
+            </div>
+            
+            <div class="result-section" id="result-section">
+                <div class="score-display">
+                    <div class="score-value" id="score-value">4.0</div>
+                    <div class="score-label">Điểm đánh giá trung bình</div>
+                </div>
+                
+                <div class="damage-meter">
+                    <div class="meter-title">
+                        <span>Mức độ hư tổn tóc:</span>
+                        <span class="meter-value" id="damage-percent">25%</span>
+                    </div>
+                    <div class="meter-container">
+                        <div class="meter-fill" id="damage-meter" style="width: 25%; background: linear-gradient(90deg, #4caf50 0%, #ff9800 50%, #f44336 100%);">25%</div>
+                    </div>
+                    <div class="meter-labels">
+                        <span>Khỏe mạnh</span>
+                        <span>Hư tổn trung bình</span>
+                        <span>Hư tổn nặng</span>
+                    </div>
+                </div>
+                
+                <div class="evaluation">
+                    <div class="evaluation-title">ĐÁNH GIÁ TÌNH TRẠNG TÓC</div>
+                    <div class="evaluation-desc" id="evaluation-desc">
+                        Tóc của bạn ở tình trạng khá tốt với mức độ hư tổn thấp.
+                    </div>
+                </div>
+                
+                <div class="recommendation">
+                    <div class="recommendation-title">ĐỀ XUẤT PHỤC HỒI</div>
+                    <ul class="recommendation-list" id="recommendation-list">
+                        <li>Sử dụng mặt nạ dưỡng tóc 1-2 lần/tuần</li>
+                        <li>Dầu dưỡng không cần rửa để bảo vệ tóc hằng ngày</li>
+                        <li>Cắt tỉa ngọn 2-3 tháng/lần</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+ 
+    <script>
+        function calculateDamage() {
+            const score = parseFloat(document.getElementById('hair-score').value);
+            
+            // Kiểm tra điểm hợp lệ
+            if (isNaN(score) || score < 1 || score > 5) {
+                alert('Vui lòng nhập điểm từ 1 đến 5');
+                return;
+            }
+            
+            // Tính phần trăm hư tổn (điểm 5 = 0% hư tổn, điểm 1 = 100% hư tổn)
+            const damagePercent = 100 - ((score - 1) / 4 * 100);
+            
+            // Hiển thị kết quả
+            document.getElementById('score-value').textContent = score.toFixed(1);
+            document.getElementById('damage-percent').textContent = `${damagePercent.toFixed(0)}%`;
+            document.getElementById('damage-meter').style.width = `${damagePercent}%`;
+            document.getElementById('damage-meter').textContent = `${damagePercent.toFixed(0)}%`;
+            
