@@ -1,4 +1,200 @@
-
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>ZEMA - BẢNG CHẤM ĐIỂM CHẤT TÓC</title>
+  <style>
+    :root {
+      --bg:#ffe6f0;          
+      --card:#ffffff;        
+      --muted:#a8557a;       
+      --accent:#ec4899;      
+      --glass: rgba(255,182,193,0.2); 
+      --good: #4caf50;       /* Màu cho tóc khỏe */
+      --medium: #ff9800;     /* Màu cho tóc trung bình */
+      --weak: #f44336;       /* Màu cho tóc yếu */
+      --critical: #9c27b0;   /* Màu cho tóc hư tổn nặng */
+    }
+    body {
+      font-family: Inter, ui-sans-serif, system-ui, Segoe UI, Roboto, Helvetica, Arial;
+      margin: 0;
+      background: linear-gradient(180deg,#ffe6f0 0%, #fff0f6 100%);
+      color: #3a0d1d;
+      display: flex;
+      justify-content: center;
+      padding: 20px;
+    }
+    .container {
+      background: var(--card);
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      padding: 30px;
+      max-width: 800px;
+      width: 100%;
+    }
+    h1 {
+      text-align: center;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+    .info {
+      margin-bottom: 20px;
+    }
+    label {
+      font-weight: bold;
+    }
+    input {
+      margin-top: 5px;
+      margin-bottom: 15px;
+      padding: 8px;
+      width: 100%;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    .question {
+      margin: 20px 0;
+    }
+    .stars {
+      display: flex;
+      flex-direction: row-reverse;
+      justify-content: flex-end;
+    }
+    .stars input {
+      display: none;
+    }
+    .stars label {
+      font-size: 30px;
+      color: #ccc;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .stars input:checked ~ label,
+    .stars label:hover,
+    .stars label:hover ~ label {
+      color: var(--accent);
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+      transition: all 0.3s;
+    }
+    button:hover {
+      opacity: 0.9;
+      transform: translateY(-2px);
+    }
+    .result {
+      margin-top: 20px;
+      padding: 20px;
+      background: var(--glass);
+      border-radius: 12px;
+      display: none;
+    }
+    .result-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    .average-score {
+      font-size: 24px;
+      font-weight: bold;
+      padding: 10px 20px;
+      border-radius: 20px;
+      color: white;
+    }
+    .score-good {
+      background-color: var(--good);
+    }
+    .score-medium {
+      background-color: var(--medium);
+    }
+    .score-weak {
+      background-color: var(--weak);
+    }
+    .score-critical {
+      background-color: var(--critical);
+    }
+    .evaluation {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .evaluation-good {
+      color: var(--good);
+    }
+    .evaluation-medium {
+      color: var(--medium);
+    }
+    .evaluation-weak {
+      color: var(--weak);
+    }
+    .evaluation-critical {
+      color: var(--critical);
+    }
+    .recommendation {
+      padding: 15px;
+      border-left: 4px solid var(--accent);
+      background-color: rgba(255, 255, 255, 0.7);
+      border-radius: 0 8px 8px 0;
+      margin-bottom: 15px;
+    }
+    .recommendation-title {
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: var(--muted);
+    }
+    .guide-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .guide-table th {
+      background-color: var(--accent);
+      color: white;
+      padding: 12px;
+      text-align: left;
+    }
+    .guide-table td {
+      padding: 12px;
+      border-bottom: 1px solid #eee;
+    }
+    .guide-table tr:last-child td {
+      border-bottom: none;
+    }
+    .guide-table tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+    .rating-good {
+      color: var(--good);
+      font-weight: bold;
+    }
+    .rating-medium {
+      color: var(--medium);
+      font-weight: bold;
+    }
+    .rating-weak {
+      color: var(--weak);
+      font-weight: bold;
+    }
+    .rating-critical {
+      color: var(--critical);
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
 <h1>ZEMA - BẢNG CHẤM ĐIỂM CHẤT TÓC</h1>
 
 <div class="info">
