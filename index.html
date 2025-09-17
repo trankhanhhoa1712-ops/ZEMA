@@ -195,31 +195,30 @@
 </head>
 <body>
   <div class="container">
-    <h1>ZEMA - BẢNG CHẤM ĐIỂM CHẤT TÓC</h1>
+<h1>ZEMA - BẢNG CHẤM ĐIỂM CHẤT TÓC</h1>
 
-    <div class="info">
-      <label for="name">Tên khách hàng:</label>
-      <input type="text" id="name" placeholder="Nhập tên khách hàng">
+<div class="info">
+  <label for="name">Tên khách hàng:</label>
+  <input type="text" id="name" placeholder="Nhập tên khách hàng">
 
-      <label for="dob">Ngày sinh:</label>
-      <input type="date" id="dob" onchange="calculateAge()">
+  <label for="dob">Ngày sinh:</label>
+  <input type="date" id="dob" onchange="calculateAge()">
 
-      <div id="ageDisplay"></div>
+  <div id="ageDisplay"></div>
+</div>
+
+<form id="surveyForm">
+  <div class="question">
+    <p>1. Độ dày sợi tóc</p>
+    <div class="stars">
+      <input type="radio" id="q1-5" name="q1" value="5"><label for="q1-5">★</label>
+      <input type="radio" id="q1-4" name="q1" value="4"><label for="q1-4">★</label>
+      <input type="radio" id="q1-3" name="q1" value="3"><label for="q1-3">★</label>
+      <input type="radio" id="q1-2" name="q1" value="2"><label for="q1-2">★</label>
+      <input type="radio" id="q1-1" name="q1" value="1"><label for="q1-1">★</label>
     </div>
-
-    <form id="surveyForm">
-      <div class="question">
-        <p>1. Độ dày sợi tóc</p>
-        <div class="stars">
-          <input type="radio" id="q1-5" name="q1" value="5"><label for="q1-5">★</label>
-          <input type="radio" id="q1-4" name="q1" value="4"><label for="q1-4">★</label>
-          <input type="radio" id="q1-3" name="q1" value="3"><label for="q1-3">★</label>
-          <input type="radio" id="q1-2" name="q1" value="2"><label for="q1-2">★</label>
-          <input type="radio" id="q1-1" name="q1" value="1"><label for="q1-1">★</label>
-        </div>
-      </div>
-
-      <div class="question">
+  </div>
+   <div class="question">
         <p>2. Mật độ tóc</p>
         <div class="stars">
           <input type="radio" id="q2-5" name="q2" value="5"><label for="q2-5">★</label>
@@ -274,127 +273,171 @@
         </div>
       </div>
 
-      <button type="button" onclick="calculateAverage()">Tính điểm trung bình</button>
-    </form>
+  <!-- Các câu hỏi khác giữ nguyên như code cũ -->
+  <button type="button" onclick="calculateAverage()">Tính điểm trung bình</button>
+</form>
 
-    <div class="result" id="result">
-      <div class="result-header">
-        <h2>Kết quả & khuyến nghị</h2>
-        <div class="average-score" id="averageScore"></div>
-      </div>
-      
-      <div class="evaluation" id="evaluation"></div>
-      
-      <div class="recommendation">
-        <div class="recommendation-title">Hướng dẫn dịch vụ:</div>
-        <div id="recommendationText"></div>
-      </div>
-      
-      <table class="guide-table">
-        <tr>
-          <th>Điểm trung bình</th>
-          <th>Đánh giá</th>
-          <th>Hướng dẫn dịch vụ</th>
-        </tr>
-        <tr>
-          <td class="rating-good">4.0 – 5.0</td>
-          <td class="rating-good">Tóc khỏe</td>
-          <td>Có thể thực hiện uốn/duỗi/nhuộm. Chỉ cần chăm dưỡng cơ bản.</td>
-        </tr>
-        <tr>
-          <td class="rating-medium">3.0 – 3.9</td>
-          <td class="rating-medium">Tóc trung bình</td>
-          <td>Nên phục hồi nhẹ trước & sau dịch vụ hóa chất.</td>
-        </tr>
-        <tr>
-          <td class="rating-weak">2.0 – 2.9</td>
-          <td class="rating-weak">Tóc yếu</td>
-          <td>Hạn chế hóa chất mạnh. Khuyến nghị phục hồi chuyên sâu.</td>
-        </tr>
-        <tr>
-          <td class="rating-critical">&lt; 2.0</td>
-          <td class="rating-critical">Hư tổn nặng</td>
-          <td>Không nên làm hóa chất. Tập trung phục hồi, cắt tỉa.</td>
-        </tr>
-      </table>
+<div class="result" id="result" style="display:none;">
+  <div class="result-header">
+    <h2>Kết quả & khuyến nghị</h2>
+    <div class="average-score" id="averageScore"></div>
+  </div>
+  
+  <!-- Thanh đo hư tổn -->
+<div class="damage-meter">
+  <div style="margin-bottom:8px;">Độ hư tổn: <span id="damagePercent">0%</span></div>
+  <div style="width:100%; background:#eee; border-radius:10px; overflow:hidden;">
+    <div id="damageFill" style="width:0%; padding:4px; color:white; text-align:center;">
+      0%
     </div>
   </div>
+</div>
 
-  <script>
-    function calculateAge() {
-      const dob = document.getElementById('dob').value;
-      if (!dob) return;
-      const birthDate = new Date(dob);
-      const today = new Date();
-      let age = today.getFullYear() - birthDate.getFullYear();
-      const m = today.getMonth() - birthDate.getMonth();
-      if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-        age--;
-      }
-     document.getElementById('ageDisplay').innerHTML = `Tuổi: <b>${age}</b>`;
+  <!-- Đánh giá -->
+  <div class="evaluation" id="evaluation"></div>
+
+  <!-- Khuyến nghị -->
+  <div class="recommendation">
+    <div class="recommendation-title">Hướng dẫn dịch vụ:</div>
+    <div id="recommendationText"></div>
+    <ul id="recommendationList"></ul>
+  </div>
+  
+  <!-- Bảng hướng dẫn -->
+  <table class="guide-table">
+    <tr>
+      <th>Điểm trung bình</th>
+      <th>Đánh giá</th>
+      <th>Hướng dẫn dịch vụ</th>
+    </tr>
+    <tr>
+      <td class="rating-good">4.0 – 5.0</td>
+      <td class="rating-good">Tóc khỏe</td>
+      <td>Có thể thực hiện uốn/duỗi/nhuộm. Chỉ cần chăm dưỡng cơ bản.</td>
+    </tr>
+    <tr>
+      <td class="rating-medium">3.0 – 3.9</td>
+      <td class="rating-medium">Tóc trung bình</td>
+      <td>Nên phục hồi nhẹ trước & sau dịch vụ hóa chất.</td>
+    </tr>
+    <tr>
+      <td class="rating-weak">2.0 – 2.9</td>
+      <td class="rating-weak">Tóc yếu</td>
+      <td>Hạn chế hóa chất mạnh. Khuyến nghị phục hồi chuyên sâu.</td>
+    </tr>
+    <tr>
+      <td class="rating-critical">&lt; 2.0</td>
+      <td class="rating-critical">Hư tổn nặng</td>
+      <td>Không nên làm hóa chất. Tập trung phục hồi, cắt tỉa.</td>
+    </tr>
+  </table>
+</div>
+
+<script>
+function calculateAge() {
+  const dob = document.getElementById('dob').value;
+  if (!dob) return;
+  const birthDate = new Date(dob);
+  const today = new Date();
+  let age = today.getFullYear() - birthDate.getFullYear();
+  const m = today.getMonth() - birthDate.getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+    age--;
+  }
+  document.getElementById('ageDisplay').innerHTML = `Tuổi: <b>${age}</b>`;
 }
-    function calculateAverage() {
-      const form = document.getElementById('surveyForm');
-      let total = 0, count = 0;
-      for (let i = 1; i <= 6; i++) {
-        const rating = form.querySelector(`input[name="q${i}"]:checked`);
-        if (rating) {
-          total += parseInt(rating.value);
-          count++;
-        }
-      }
-      
-      if (count > 0) {
-        const avg = (total / count).toFixed(2);
-        const name = document.getElementById('name').value || "Khách hàng";
-        
-        // Hiển thị kết quả
-        document.getElementById('result').style.display = 'block';
-        document.getElementById('averageScore').textContent = `Điểm: ${avg}`;
-        
-        // Xác định đánh giá và khuyến nghị
-        let evaluation, recommendation, scoreClass, evaluationClass;
-        
-        if (avg >= 4.0) {
-          evaluation = "Tóc khỏe";
-          recommendation = "Có thể thực hiện uốn/duỗi/nhuộm. Chỉ cần chăm dưỡng cơ bản.";
-          scoreClass = "score-good";
-          evaluationClass = "evaluation-good";
-        } else if (avg >= 3.0) {
-          evaluation = "Tóc trung bình";
-          recommendation = "Nên phục hồi nhẹ trước & sau dịch vụ hóa chất.";
-          scoreClass = "score-medium";
-          evaluationClass = "evaluation-medium";
-        } else if (avg >= 2.0) {
-          evaluation = "Tóc yếu";
-          recommendation = "Hạn chế hóa chất mạnh. Khuyến nghị phục hồi chuyên sâu.";
-          scoreClass = "score-weak";
-          evaluationClass = "evaluation-weak";
-        } else {
-          evaluation = "Hư tổn nặng";
-          recommendation = "Không nên làm hóa chất. Tập trung phục hồi, cắt tỉa.";
-          scoreClass = "score-critical";
-          evaluationClass = "evaluation-critical";
-        }
-        
-        // Cập nhật giao diện
-        const evaluationElement = document.getElementById('evaluation');
-        evaluationElement.textContent = `Đánh giá: ${evaluation}`;
-        evaluationElement.className = 'evaluation ' + evaluationClass;
-        
-        document.getElementById('recommendationText').textContent = recommendation;
-        
-        // Đặt màu cho điểm số
-        const averageScore = document.getElementById('averageScore');
-        averageScore.className = 'average-score ' + scoreClass;
-        
-        // Cuộn đến kết quả
-        document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
-        
-      } else {
-        alert("Vui lòng chấm điểm tất cả tiêu chí.");
-      }
+
+function calculateAverage() {
+  const form = document.getElementById('surveyForm');
+  let total = 0, count = 0;
+  for (let i = 1; i <= 6; i++) {
+    const rating = form.querySelector(`input[name="q${i}"]:checked`);
+    if (rating) {
+      total += parseInt(rating.value);
+      count++;
     }
-  </script>
-</body>
-</html>
+  }
+
+  if (count > 0) {
+    const avg = (total / count).toFixed(2);
+    document.getElementById('result').style.display = 'block';
+    document.getElementById('averageScore').textContent = `Điểm: ${avg}`;
+
+    // % hư tổn (5 = 0%, 1 = 100%)
+    const damagePercent = 100 - ((avg - 1) / 4 * 100);
+    document.getElementById('damagePercent').textContent = `${damagePercent.toFixed(0)}%`;
+    document.getElementById('damageFill').style.width = `${damagePercent}%`;
+    document.getElementById('damageFill').textContent = `${damagePercent.toFixed(0)}%`;
+
+    let meterColor;
+    if (damagePercent <= 25) {
+      meterColor = 'linear-gradient(90deg, #4caf50, #8bc34a)';
+    } else if (damagePercent <= 50) {
+      meterColor = 'linear-gradient(90deg, #cddc39, #ffeb3b)';
+    } else if (damagePercent <= 75) {
+      meterColor = 'linear-gradient(90deg, #ffc107, #ff9800)';
+    } else {
+      meterColor = 'linear-gradient(90deg, #ff5722, #f44336)';
+    }
+    document.getElementById('damageFill').style.background = meterColor;
+    // Đặt màu sắc cho thanh tiến trình và chữ dựa trên mức độ hư tổn
+let textColor;
+if (avg >= 4.0) {
+    textColor = getComputedStyle(document.documentElement).getPropertyValue('--good').trim();
+} else if (avg >= 3.0) {
+    textColor = getComputedStyle(document.documentElement).getPropertyValue('--medium').trim();
+} else if (avg >= 2.0) {
+    textColor = getComputedStyle(document.documentElement).getPropertyValue('--weak').trim();
+} else {
+    textColor = getComputedStyle(document.documentElement).getPropertyValue('--critical').trim();
+}
+
+// Thanh tiến trình
+document.getElementById('damageFill').style.background = textColor;
+
+// Áp dụng màu chữ + in đậm cho Điểm và Đánh giá
+const avgScoreEl = document.getElementById('averageScore');
+avgScoreEl.style.color = textColor;
+avgScoreEl.style.fontWeight = 'bold';
+
+const evaluationEl = document.getElementById('evaluation');
+evaluationEl.style.color = textColor;
+evaluationEl.style.fontWeight = 'bold';
+
+    // Gán khuyến nghị
+    let evaluation, recommendation, recommendations = [];
+    if (avg >= 4.0) {
+      evaluation = "Tóc khỏe";
+      recommendation = "Có thể thực hiện uốn/duỗi/nhuộm. Chỉ cần chăm dưỡng cơ bản.";
+      recommendations = ["Dưỡng tóc nhẹ nhàng 1 lần/tuần", "Che chắn khi ra ngoài", "Cắt tỉa ngọn định kỳ 3 tháng/lần"];
+    } else if (avg >= 3.0) {
+      evaluation = "Tóc trung bình";
+      recommendation = "Nên phục hồi nhẹ trước & sau dịch vụ hóa chất.";
+      recommendations = ["Phục hồi tại salon 1-2 lần/tháng", "Dầu dưỡng hằng ngày", "Cắt tỉa 2-3 tháng/lần"];
+    } else if (avg >= 2.0) {
+      evaluation = "Tóc yếu";
+      recommendation = "Hạn chế hóa chất mạnh. Khuyến nghị phục hồi chuyên sâu.";
+      recommendations = ["Phục hồi chuyên sâu 2-3 lần/tháng", "Serum dưỡng chứa Protein", "Hạn chế nhiệt", "Cắt tỉa 6-8 tuần/lần"];
+    } else {
+      evaluation = "Hư tổn nặng";
+      recommendation = "Không nên làm hóa chất. Tập trung phục hồi, cắt tỉa.";
+      recommendations = ["Phục hồi tại salon 1-2 lần/tuần", "Bond building treatment", "Cắt bỏ phần hư tổn", "Tránh hóa chất 3 tháng", "Bảo vệ tóc khi ra nắng"];
+    }
+
+    document.getElementById('evaluation').textContent = `Đánh giá: ${evaluation}`;
+    document.getElementById('recommendationText').textContent = recommendation;
+
+    const recommendationList = document.getElementById('recommendationList');
+    recommendationList.innerHTML = '';
+    recommendations.forEach(rec => {
+      const li = document.createElement('li');
+      li.textContent = rec;
+      recommendationList.appendChild(li);
+    });
+
+    document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
+  } else {
+    alert("Vui lòng chấm điểm tất cả tiêu chí.");
+  }
+}
+</script>
