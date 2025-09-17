@@ -1,127 +1,119 @@
-    <h1>ZEMA - BẢNG CHẤM ĐIỂM CHẤT TÓC</h1>
+<script>
+    function calculateAverage() {
+      const form = document.getElementById('surveyForm');
+      let total = 0, count = 0;
+      for (let i = 1; i <= 6; i++) {
+        const rating = form.querySelector(`input[name="q${i}"]:checked`);
+        if (rating) {
+          total += parseInt(rating.value);
+          count++;
+        }
+      }
+      
+      if (count > 0) {
+        const avg = (total / count).toFixed(2);
+        const name = document.getElementById('name').value || "Khách hàng";
+        
+        // Hiển thị kết quả
+        document.getElementById('result').style.display = 'block';
+        document.getElementById('averageScore').textContent = `Điểm: ${avg}`;
+        
+        // Tính phần trăm hư tổn (điểm 5 = 0% hư tổn, điểm 1 = 100% hư tổn)
+        const damagePercent = 100 - ((avg - 1) / 4 * 100);
+        
+        // Cập nhật đồ thị hư tổn
+        document.getElementById('damagePercent').textContent = `${damagePercent.toFixed(0)}%`;
+        document.getElementById('damageFill').style.width = `${damagePercent}%`;
+        document.getElementById('damageFill').textContent = `${damagePercent.toFixed(0)}%`;
+        
+        // Đặt màu sắc cho thanh tiến trình dựa trên mức độ hư tổn
+        let meterColor;
+        if (damagePercent <= 25) {
+            meterColor = 'linear-gradient(90deg, #4caf50 0%, #8bc34a 100%)';
+        } else if (damagePercent <= 50) {
+            meterColor = 'linear-gradient(90deg, #cddc39 0%, #ffeb3b 100%)';
+        } else if (damagePercent <= 75) {
+            meterColor = 'linear-gradient(90deg, #ffc107 0%, #ff9800 100%)';
+        } else {
+            meterColor = 'linear-gradient(90deg, #ff5722 0%, #f44336 100%)';
+        }
+        document.getElementById('damageFill').style.background = meterColor;
+        
+        // Xác định đánh giá và khuyến nghị
+        let evaluation, recommendation, scoreClass, evaluationClass;
+        let recommendations = [];
+        
+        if (avg >= 4.0) {
+          evaluation = "Tóc khỏe";
+          recommendation = "Có thể thực hiện uốn/duỗi/nhuộm. Chỉ cần chăm dưỡng cơ bản.";
+          scoreClass = "score-good";
+          evaluationClass = "evaluation-good";
+          recommendations = [
+            "Dưỡng tóc nhẹ nhàng 1 lần/tuần để duy trì",
+            "Che chắn cho tóc khi ra ngoài",
+            "Cắt tỉa ngọn định kỳ 3 tháng/lần"
+          ];
+        } else if (avg >= 3.0) {
+          evaluation = "Tóc trung bình";
+          recommendation = "Nên phục hồi nhẹ trước & sau dịch vụ hóa chất.";
+          scoreClass = "score-medium";
+          evaluationClass = "evaluation-medium";
+          recommendations = [
+            "Phục hồi chuyên sâu tại salon tóc 1-2 lần/tháng",
+            "Dầu dưỡng không cần rửa để bảo vệ tóc hằng ngày",
+            "Cắt tỉa ngọn 2-3 tháng/lần"
+          ];
+        } else if (avg >= 2.0) {
+          evaluation = "Tóc yếu";
+          recommendation = "Hạn chế hóa chất mạnh. Khuyến nghị phục hồi chuyên sâu.";
+          scoreClass = "score-weak";
+          evaluationClass = "evaluation-weak";
+          recommendations = [
+            "Phục hồi chuyên sâu tại salon với Protein treatment 2-3 lần/tháng",
+            "Sử dụng serum dưỡng tóc chuyên sâu chứa Peptide/Protein",
+            "Hạn chế sử dụng nhiệt và hóa chất",
+            "Cắt tỉa ngọn mỗi 6-8 tuần"
+          ];
+        } else {
+          evaluation = "Hư tổn nặng";
+          recommendation = "Không nên làm hóa chất. Tập trung phục hồi, cắt tỉa.";
+          scoreClass = "score-critical";
+          evaluationClass = "evaluation-critical";
+          recommendations = [
+            "Phục hồi chuyên sâu tại salon 1-2 lần/tuần",
+            "Sử dụng liệu pháp bond building để tái tạo cấu trúc tóc",
+            "Cắt bỏ phần tóc hư tổn không thể phục hồi",
+            "Tránh hoàn toàn việc nhuộm, uốn, duỗi trong ít nhất 3 tháng",
+            "Bảo vệ tóc khi ra nắng"
+          ];
+        }
+        
+        // Cập nhật giao diện
+        const evaluationElement = document.getElementById('evaluation');
+        evaluationElement.textContent = `Đánh giá: ${evaluation}`;
+        evaluationElement.className = 'evaluation ' + evaluationClass;
+        
+        document.getElementById('recommendationText').textContent = recommendation;
+        
+        // Hiển thị danh sách đề xuất
+        const recommendationList = document.getElementById('recommendationList');
+        recommendationList.innerHTML = '';
+        recommendations.forEach(rec => {
+            const li = document.createElement('li');
+            li.textContent = rec;
+            recommendationList.appendChild(li);
+        });
+        
+        // Đặt màu cho điểm số
+        const averageScore = document.getElementById('averageScore');
+        averageScore.className = 'average-score ' + scoreClass;
+        
+        // Cuộn đến kết quả
+        document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
+        
+      } else {
+        alert("Vui lòng chấm điểm tất cả tiêu chí.");
+      }
+    }
+</script>
 
-    <div class="info">
-      <label for="name">Tên khách hàng:</label>
-      <input type="text" id="name" placeholder="Nhập tên khách hàng">
-
-      <label for="dob">Ngày sinh:</label>
-      <input type="date" id="dob" onchange="calculateAge()">
-
-      <div id="ageDisplay"></div>
-    </div>
-
-    <form id="surveyForm">
-      <div class="question">
-        <p>1. Độ dày sợi tóc</p>
-        <div class="stars">
-          <input type="radio" id="q1-5" name="q1" value="5"><label for="q1-5">★</label>
-          <input type="radio" id="q1-4" name="q1" value="4"><label for="q1-4">★</label>
-          <input type="radio" id="q1-3" name="q1" value="3"><label for="q1-3">★</label>
-          <input type="radio" id="q1-2" name="q1" value="2"><label for="q1-2">★</label>
-          <input type="radio" id="q1-1" name="q1" value="1"><label for="q1-1">★</label>
-        </div>
-      </div>
-
-      <div class="question">
-        <p>2. Mật độ tóc</p>
-        <div class="stars">
-          <input type="radio" id="q2-5" name="q2" value="5"><label for="q2-5">★</label>
-          <input type="radio" id="q2-4" name="q2" value="4"><label for="q2-4">★</label>
-          <input type="radio" id="q2-3" name="q2" value="3"><label for="q2-3">★</label>
-          <input type="radio" id="q2-2" name="q2" value="2"><label for="q2-2">★</label>
-          <input type="radio" id="q2-1" name="q2" value="1"><label for="q2-1">★</label>
-        </div>
-      </div>
-
-      <div class="question">
-        <p>3. Độ đàn hồi</p>
-        <div class="stars">
-          <input type="radio" id="q3-5" name="q3" value="5"><label for="q3-5">★</label>
-          <input type="radio" id="q3-4" name="q3" value="4"><label for="q3-4">★</label>
-          <input type="radio" id="q3-3" name="q3" value="3"><label for="q3-3">★</label>
-          <input type="radio" id="q3-2" name="q3" value="2"><label for="q3-2">★</label>
-          <input type="radio" id="q3-1" name="q3" value="1"><label for="q3-1">★</label>
-        </div>
-      </div>
-
-      <div class="question">
-        <p>4. Độ xốp (Porosity)</p>
-        <div class="stars">
-          <input type="radio" id="q4-5" name="q4" value="5"><label for="q4-5">★</label>
-          <input type="radio" id="q4-4" name="q4" value="4"><label for="q4-4">★</label>
-          <input type="radio" id="q4-3" name="q4" value="3"><label for="q4-3">★</label>
-          <input type="radio" id="q4-2" name="q4" value="2"><label for="q4-2">★</label>
-          <input type="radio" id="q4-1" name="q4" value="1"><label for="q4-1">★</label>
-        </div>
-      </div>
-
-      <div class="question">
-        <p>5. Độ bóng – mượt</p>
-        <div class="stars">
-          <input type="radio" id="q5-5" name="q5" value="5"><label for="q5-5">★</label>
-          <input type="radio" id="q5-4" name="q5" value="4"><label for="q5-4">★</label>
-          <input type="radio" id="q5-3" name="q5" value="3"><label for="q5-3">★</label>
-          <input type="radio" id="q5-2" name="q5" value="2"><label for="q5-2">★</label>
-          <input type="radio" id="q5-1" name="q5" value="1"><label for="q5-1">★</label>
-        </div>
-      </div>
-
-      <div class="question">
-        <p>6. Tình trạng bề mặt</p>
-        <div class="stars">
-          <input type="radio" id="q6-5" name="q6" value="5"><label for="q6-5">★</label>
-          <input type="radio" id="q6-4" name="q6" value="4"><label for="q6-4">★</label>
-          <input type="radio" id="q6-3" name="q6" value="3"><label for="q6-3">★</label>
-          <input type="radio" id="q6-2" name="q6" value="2"><label for="q6-2">★</label>
-          <input type="radio" id="q6-1" name="q6" value="1"><label for="q6-1">★</label>
-        </div>
-      </div>
-
-      <button type="button" onclick="calculateAverage()">Tính điểm trung bình</button>
-    </form>
-    <div class="result" id="result">
-  <div class="result-header">
-                <button onclick="calculateDamage()">PHÂN TÍCH MỨC ĐỘ HƯ TỔN</button>
-            </div>
-            <div class="result-section" id="result-section">
-                <div class="score-display">
-                    <div class="score-value" id="score-value">4.0</div>
-                    <div class="score-label">Điểm đánh giá trung bình</div>
-                </div>
-                
-                <div class="damage-meter">
-                    <div class="meter-title">
-                        <span>Mức độ hư tổn tóc:</span>
-                        <span class="meter-value" id="damage-percent">25%</span>
-                    </div>
-                    <div class="meter-container">
-                        <div class="meter-fill" id="damage-meter" style="width: 25%; background: linear-gradient(90deg, #4caf50 0%, #ff9800 50%, #f44336 100%);">25%</div>
-                    </div>
-                    <div class="meter-labels">
-                        <span>Khỏe mạnh</span>
-                        <span>Hư tổn trung bình</span>
-                        <span>Hư tổn nặng</span>
-                    </div>
-                </div>
-                
-                <div class="evaluation">
-                    <div class="evaluation-title">ĐÁNH GIÁ TÌNH TRẠNG TÓC</div>
-                    <div class="evaluation-desc" id="evaluation-desc">
-                        Tóc của bạn ở tình trạng khá tốt với mức độ hư tổn thấp.
-                    </div>
-                </div>
-                
-                <div class="recommendation">
-                    <div class="recommendation-title">ĐỀ XUẤT PHỤC HỒI</div>
-                    <ul class="recommendation-list" id="recommendation-list">
-                        <li>Sử dụng mặt nạ dưỡng tóc 1-2 lần/tuần</li>
-                        <li>Dầu dưỡng không cần rửa để bảo vệ tóc hằng ngày</li>
-                        <li>Cắt tỉa ngọn 2-3 tháng/lần</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script>
-        function calculateDamage() {
-            const score = parseFloat(document.getElementById('hair-score').value);
