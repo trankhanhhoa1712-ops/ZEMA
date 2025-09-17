@@ -1,200 +1,3 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-  <meta charset="UTF-8">
-  <title>ZEMA - BẢNG CHẤM ĐIỂM CHẤT TÓC</title>
-  <style>
-    :root {
-      --bg:#ffe6f0;          
-      --card:#ffffff;        
-      --muted:#a8557a;       
-      --accent:#ec4899;      
-      --glass: rgba(255,182,193,0.2); 
-      --good: #4caf50;       /* Màu cho tóc khỏe */
-      --medium: #ff9800;     /* Màu cho tóc trung bình */
-      --weak: #f44336;       /* Màu cho tóc yếu */
-      --critical: #9c27b0;   /* Màu cho tóc hư tổn nặng */
-    }
-    body {
-      font-family: Inter, ui-sans-serif, system-ui, Segoe UI, Roboto, Helvetica, Arial;
-      margin: 0;
-      background: linear-gradient(180deg,#ffe6f0 0%, #fff0f6 100%);
-      color: #3a0d1d;
-      display: flex;
-      justify-content: center;
-      padding: 20px;
-    }
-    .container {
-      background: var(--card);
-      border-radius: 16px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-      padding: 30px;
-      max-width: 800px;
-      width: 100%;
-    }
-    h1 {
-      text-align: center;
-      color: var(--accent);
-      margin-bottom: 20px;
-    }
-    .info {
-      margin-bottom: 20px;
-    }
-    label {
-      font-weight: bold;
-    }
-    input {
-      margin-top: 5px;
-      margin-bottom: 15px;
-      padding: 8px;
-      width: 100%;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-    }
-    .question {
-      margin: 20px 0;
-    }
-    .stars {
-      display: flex;
-      flex-direction: row-reverse;
-      justify-content: flex-end;
-    }
-    .stars input {
-      display: none;
-    }
-    .stars label {
-      font-size: 30px;
-      color: #ccc;
-      cursor: pointer;
-      transition: color 0.2s;
-    }
-    .stars input:checked ~ label,
-    .stars label:hover,
-    .stars label:hover ~ label {
-      color: var(--accent);
-    }
-    button {
-      margin-top: 20px;
-      padding: 10px 20px;
-      background: var(--accent);
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 16px;
-      font-weight: bold;
-      transition: all 0.3s;
-    }
-    button:hover {
-      opacity: 0.9;
-      transform: translateY(-2px);
-    }
-    .result {
-      margin-top: 20px;
-      padding: 20px;
-      background: var(--glass);
-      border-radius: 12px;
-      display: none;
-    }
-    .result-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 15px;
-    }
-    .average-score {
-      font-size: 24px;
-      font-weight: bold;
-      padding: 10px 20px;
-      border-radius: 20px;
-      color: white;
-    }
-    .score-good {
-      background-color: var(--good);
-    }
-    .score-medium {
-      background-color: var(--medium);
-    }
-    .score-weak {
-      background-color: var(--weak);
-    }
-    .score-critical {
-      background-color: var(--critical);
-    }
-    .evaluation {
-      font-size: 20px;
-      font-weight: bold;
-      margin-bottom: 10px;
-    }
-    .evaluation-good {
-      color: var(--good);
-    }
-    .evaluation-medium {
-      color: var(--medium);
-    }
-    .evaluation-weak {
-      color: var(--weak);
-    }
-    .evaluation-critical {
-      color: var(--critical);
-    }
-    .recommendation {
-      padding: 15px;
-      border-left: 4px solid var(--accent);
-      background-color: rgba(255, 255, 255, 0.7);
-      border-radius: 0 8px 8px 0;
-      margin-bottom: 15px;
-    }
-    .recommendation-title {
-      font-weight: bold;
-      margin-bottom: 8px;
-      color: var(--muted);
-    }
-    .guide-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-      background: white;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-    .guide-table th {
-      background-color: var(--accent);
-      color: white;
-      padding: 12px;
-      text-align: left;
-    }
-    .guide-table td {
-      padding: 12px;
-      border-bottom: 1px solid #eee;
-    }
-    .guide-table tr:last-child td {
-      border-bottom: none;
-    }
-    .guide-table tr:nth-child(even) {
-      background-color: #f9f9f9;
-    }
-    .rating-good {
-      color: var(--good);
-      font-weight: bold;
-    }
-    .rating-medium {
-      color: var(--medium);
-      font-weight: bold;
-    }
-    .rating-weak {
-      color: var(--weak);
-      font-weight: bold;
-    }
-    .rating-critical {
-      color: var(--critical);
-      font-weight: bold;
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
     <h1>ZEMA - BẢNG CHẤM ĐIỂM CHẤT TÓC</h1>
 
     <div class="info">
@@ -278,159 +81,47 @@
     </form>
     <div class="result" id="result">
   <div class="result-header">
-    <h1>ĐÁNH GIÁ MỨC ĐỘ HƯ TỔN TÓC</h1>
-    <p>Điểm trung bình: <span id="average-score">0</span></p>
-  </div>
-  <div id="recommendation"></div>
-</div>
-        <div class="content">
-            <div class="input-section">
-                <label for="hair-score">Điểm đánh giá chất lượng tóc (thang điểm 5):</label>
-                <input type="number" id="hair-score" min="1" max="5" step="0.1" placeholder="Nhập điểm từ 1 đến 5">
-                <button onclick="calculateDamage()">PHÂN TÍCH MỨC ĐỘ HƯ TỔN</button>
-            </div>
-            
-            <div class="result-section" id="result-section">
-                <div class="score-display">
-                    <div class="score-value" id="score-value">4.0</div>
-                    <div class="score-label">Điểm đánh giá trung bình</div>
-                </div>
-                
-                <div class="damage-meter">
-                    <div class="meter-title">
-                        <span>Mức độ hư tổn tóc:</span>
-                        <span class="meter-value" id="damage-percent">25%</span>
-                    </div>
-                    <div class="meter-container">
-                        <div class="meter-fill" id="damage-meter" style="width: 25%; background: linear-gradient(90deg, #4caf50 0%, #ff9800 50%, #f44336 100%);">25%</div>
-                    </div>
-                    <div class="meter-labels">
-                        <span>Khỏe mạnh</span>
-                        <span>Hư tổn trung bình</span>
-                        <span>Hư tổn nặng</span>
-                    </div>
-                </div>
-                
-                <div class="evaluation">
-                    <div class="evaluation-title">ĐÁNH GIÁ TÌNH TRẠNG TÓC</div>
-                    <div class="evaluation-desc" id="evaluation-desc">
-                        Tóc của bạn ở tình trạng khá tốt với mức độ hư tổn thấp.
-                    </div>
-                </div>
-                
-                <div class="recommendation">
-                    <div class="recommendation-title">ĐỀ XUẤT PHỤC HỒI</div>
-                    <ul class="recommendation-list" id="recommendation-list">
-                        <li>Sử dụng mặt nạ dưỡng tóc 1-2 lần/tuần</li>
-                        <li>Dầu dưỡng không cần rửa để bảo vệ tóc hằng ngày</li>
-                        <li>Cắt tỉa ngọn 2-3 tháng/lần</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
- 
-    <script>
-        function calculateDamage() {
-            const score = parseFloat(document.getElementById('hair-score').value);
-            
-            // Kiểm tra điểm hợp lệ
-            if (isNaN(score) || score < 1 || score > 5) {
-                alert('Vui lòng nhập điểm từ 1 đến 5');
-                return;
-            }
-            
-            // Tính phần trăm hư tổn (điểm 5 = 0% hư tổn, điểm 1 = 100% hư tổn)
-            const damagePercent = 100 - ((score - 1) / 4 * 100);
-            
-            // Hiển thị kết quả
-            document.getElementById('score-value').textContent = score.toFixed(1);
-            document.getElementById('damage-percent').textContent = `${damagePercent.toFixed(0)}%`;
-            document.getElementById('damage-meter').style.width = `${damagePercent}%`;
-            document.getElementById('damage-meter').textContent = `${damagePercent.toFixed(0)}%`;
-            
-            // Đặt màu sắc cho thanh tiến trình dựa trên mức độ hư tổn
-            let meterColor;
-            if (damagePercent <= 25) {
-                meterColor = 'linear-gradient(90deg, #4caf50 0%, #8bc34a 100%)';
-            } else if (damagePercent <= 50) {
-                meterColor = 'linear-gradient(90deg, #cddc39 0%, #ffeb3b 100%)';
-            } else if (damagePercent <= 75) {
-                meterColor = 'linear-gradient(90deg, #ffc107 0%, #ff9800 100%)';
-            } else {
-                meterColor = 'linear-gradient(90deg, #ff5722 0%, #f44336 100%)';
-            }
-            document.getElementById('damage-meter').style.background = meterColor;
-            
-            // Đánh giá tình trạng tóc
-            let evaluationText;
-            let recommendations = [];
-            
-            if (score >= 4.5) {
-                evaluationText = "Tóc của bạn khỏe mạnh với mức độ hư tổn tối thiểu. Duy trì chế độ chăm sóc hiện tại.";
-                recommendations = [
-                    "Dưỡng tóc nhẹ nhàng 1 lần/tuần để duy trì",
-                    “Che chắn cho tóc khi ra ngoài",
-                    "Cắt tỉa ngọn định kỳ 3 tháng/lần"
-                ];
-            } else if (score >= 4.0) {
-                evaluationText = "Tóc của bạn ở tình trạng tốt với mức độ hư tổn thấp. Cần chăm sóc định kỳ.";
-                recommendations = [
-                    “Phục hồi chuyên sâu tại salon tóc 1-2 lần/tháng”,
-                    "Dầu dưỡng không cần rửa để bảo vệ tóc hằng ngày",
-                    "Cắt tỉa ngọn 2-3 tháng/lần"
-                ];
-            } else if (score >= 3.0) {
-                evaluationText = "Tóc của bạn có mức độ hư tổn trung bình. Cần phục hồi tích cực hơn.";
-                recommendations = [
-                    "Phục hồi chuyên sâu tại salon với Protein treatment 2 - 3 lần/tháng”,
-                    "Sử dụng serum dưỡng tóc chuyên sâu chứa  Peptide / Protein“,
-                    "Hạn chế sử dụng nhiệt và hóa chất",
-                    "Cắt tỉa ngọn mỗi 6-8 tuần"
-                ];
-            } else if (score >= 2.0) {
-                evaluationText = "Tóc của bạn bị hư tổn khá nặng. Cần chăm sóc đặc biệt và phục hồi chuyên sâu.";
-                recommendations = [
-                    "Phục hồi chuyên sâu keratin 3 - 4 lần/tháng”,
-                    "Sử dụng sản phẩm chứa ceramide và amino acid",
-                    "Tránh hoàn toàn việc sử dụng nhiệt và hóa chất",
-                    "Cắt bỏ phần tóc hư tổn nặng và tỉa ngọn mỗi 4-6 tuần"
-                ];
-            } else {
-                evaluationText = "Tóc của bạn bị hư tổn nghiêm trọng. Cần chăm sóc chuyên nghiệp và cắt bỏ phần hư tổn.";
-                recommendations = [
-                    "Phục hồi chuyên sâu tại salon 1-2 lần/tuần",
-                    "Sử dụng liệu pháp bond building để tái tạo cấu trúc tóc",
-                    "Cắt bỏ phần tóc hư tổn không thể phục hồi",
-                    "Tránh hoàn toàn việc nhuộm, uốn, duỗi trong ít nhất 3 tháng",
-                    “ Bảo vệ tóc khi ra nắng"
-                ];
-            }
-            
-            // Hiển thị đánh giá và đề xuất
-            document.getElementById('evaluation-desc').textContent = evaluationText;
-            
-            const recommendationList = document.getElementById('recommendation-list');
-            recommendationList.innerHTML = '';
-            recommendations.forEach(rec => {
-                const li = document.createElement('li');
-                li.textContent = rec;
-                recommendationList.appendChild(li);
-            });
-            
-            // Hiển thị kết quả
-            document.getElementById('result-section').style.display = 'block';
-            
-            // Cuộn đến kết quả
-            document.getElementById('result-section').scrollIntoView({ behavior: 'smooth' });
-        }
-        
-        // Xử lý sự kiện nhấn Enter trong input
-        document.getElementById('hair-score').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                calculateDamage();
-            }
-        });
-    </script>
-</body>
-</html>
+                <button onclick="calculateDamage()">PHÂN TÍCH MỨC ĐỘ HƯ TỔN</button>
+            </div>
+            <div class="result-section" id="result-section">
+                <div class="score-display">
+                    <div class="score-value" id="score-value">4.0</div>
+                    <div class="score-label">Điểm đánh giá trung bình</div>
+                </div>
+                
+                <div class="damage-meter">
+                    <div class="meter-title">
+                        <span>Mức độ hư tổn tóc:</span>
+                        <span class="meter-value" id="damage-percent">25%</span>
+                    </div>
+                    <div class="meter-container">
+                        <div class="meter-fill" id="damage-meter" style="width: 25%; background: linear-gradient(90deg, #4caf50 0%, #ff9800 50%, #f44336 100%);">25%</div>
+                    </div>
+                    <div class="meter-labels">
+                        <span>Khỏe mạnh</span>
+                        <span>Hư tổn trung bình</span>
+                        <span>Hư tổn nặng</span>
+                    </div>
+                </div>
+                
+                <div class="evaluation">
+                    <div class="evaluation-title">ĐÁNH GIÁ TÌNH TRẠNG TÓC</div>
+                    <div class="evaluation-desc" id="evaluation-desc">
+                        Tóc của bạn ở tình trạng khá tốt với mức độ hư tổn thấp.
+                    </div>
+                </div>
+                
+                <div class="recommendation">
+                    <div class="recommendation-title">ĐỀ XUẤT PHỤC HỒI</div>
+                    <ul class="recommendation-list" id="recommendation-list">
+                        <li>Sử dụng mặt nạ dưỡng tóc 1-2 lần/tuần</li>
+                        <li>Dầu dưỡng không cần rửa để bảo vệ tóc hằng ngày</li>
+                        <li>Cắt tỉa ngọn 2-3 tháng/lần</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function calculateDamage() {
+            const score = parseFloat(document.getElementById('hair-score').value);
