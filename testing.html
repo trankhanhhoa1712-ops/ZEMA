@@ -379,13 +379,30 @@ function calculateAverage() {
       meterColor = 'linear-gradient(90deg, #ff5722, #f44336)';
     }
     document.getElementById('damageFill').style.background = meterColor;
-    // Áp dụng màu chữ + in đậm cho Điểm và Đánh giá
+    // Đặt màu sắc cho thanh tiến trình và chữ dựa trên mức độ hư tổn
+let textColor;
+if (avg >= 4.0) {
+    textColor = getComputedStyle(document.documentElement).getPropertyValue('--good').trim();
+} else if (avg >= 3.0) {
+    textColor = getComputedStyle(document.documentElement).getPropertyValue('--medium').trim();
+} else if (avg >= 2.0) {
+    textColor = getComputedStyle(document.documentElement).getPropertyValue('--weak').trim();
+} else {
+    textColor = getComputedStyle(document.documentElement).getPropertyValue('--critical').trim();
+}
+
+// Thanh tiến trình
+document.getElementById('damageFill').style.background = textColor;
+
+// Áp dụng màu chữ + in đậm cho Điểm và Đánh giá
 const avgScoreEl = document.getElementById('averageScore');
 avgScoreEl.style.color = textColor;
 avgScoreEl.style.fontWeight = 'bold';
+
 const evaluationEl = document.getElementById('evaluation');
 evaluationEl.style.color = textColor;
 evaluationEl.style.fontWeight = 'bold';
+
     // Gán khuyến nghị
     let evaluation, recommendation, recommendations = [];
     if (avg >= 4.0) {
