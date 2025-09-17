@@ -282,6 +282,7 @@
     <h2>Kết quả & khuyến nghị</h2>
     <div class="average-score" id="averageScore"></div>
   </div>
+  
   <!-- Thanh đo hư tổn -->
   <div class="damage-meter">
     <div>Độ hư tổn: <span id="damagePercent">0%</span></div>
@@ -378,9 +379,8 @@ function calculateAverage() {
       meterColor = 'linear-gradient(90deg, #ff5722, #f44336)';
     }
     document.getElementById('damageFill').style.background = meterColor;
-  // Áp dụng màu chữ cho Điểm và Đánh giá
-document.getElementById('averageScore').style.color = textColor;
-document.getElementById('evaluation').style.color = textColor;
+    document.getElementById('averageScore').style.color = textColor;
+    document.getElementById('evaluation').style.color = textColor;
 
     // Gán khuyến nghị
     let evaluation, recommendation, recommendations = [];
