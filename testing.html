@@ -379,9 +379,13 @@ function calculateAverage() {
       meterColor = 'linear-gradient(90deg, #ff5722, #f44336)';
     }
     document.getElementById('damageFill').style.background = meterColor;
-    document.getElementById('averageScore').style.color = textColor;
-    document.getElementById('evaluation').style.color = textColor;
-
+    // Áp dụng màu chữ + in đậm cho Điểm và Đánh giá
+const avgScoreEl = document.getElementById('averageScore');
+avgScoreEl.style.color = textColor;
+avgScoreEl.style.fontWeight = 'bold';
+const evaluationEl = document.getElementById('evaluation');
+evaluationEl.style.color = textColor;
+evaluationEl.style.fontWeight = 'bold';
     // Gán khuyến nghị
     let evaluation, recommendation, recommendations = [];
     if (avg >= 4.0) {
