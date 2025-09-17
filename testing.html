@@ -274,7 +274,7 @@
       </div>
 
   <!-- Các câu hỏi khác giữ nguyên như code cũ -->
-   <button type="button" onclick="calculateAverage()">Tính điểm trung bình</button>
+  <button type="button" onclick="calculateAverage()">Tính điểm trung bình</button>
 </form>
 
 <div class="result" id="result" style="display:none;">
@@ -380,6 +380,7 @@ function calculateAverage() {
       meterColor = 'linear-gradient(90deg, #ff5722, #f44336)';
     }
     document.getElementById('damageFill').style.background = meterColor;
+
     // Gán khuyến nghị
     let evaluation, recommendation, recommendations = [];
     if (avg >= 4.0) {
@@ -417,4 +418,3 @@ function calculateAverage() {
   }
 }
 </script>
-
