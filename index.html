@@ -331,9 +331,8 @@
       if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
         age--;
       }
-      document.getElementById('ageDisplay').innerText = `Tuổi: ${age}`;
-    }
-
+     document.getElementById('ageDisplay').innerHTML = `Tuổi: <b>${age}</b>`;
+}
     function calculateAverage() {
       const form = document.getElementById('surveyForm');
       let total = 0, count = 0;
