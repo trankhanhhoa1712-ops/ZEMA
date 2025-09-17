@@ -380,11 +380,6 @@ function calculateAverage() {
       meterColor = 'linear-gradient(90deg, #ff5722, #f44336)';
     }
     document.getElementById('damageFill').style.background = meterColor;
-    
-    // Áp dụng màu chữ cho Điểm và Đánh giá
-document.getElementById('averageScore').style.color = textColor;
-document.getElementById('evaluation').style.color = textColor;
-
     // Gán khuyến nghị
     let evaluation, recommendation, recommendations = [];
     if (avg >= 4.0) {
