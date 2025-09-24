@@ -369,22 +369,25 @@ function calculateAverage() {
     document.getElementById('averageScore').textContent = `Điểm: ${avg}`;
 
     // % hư tổn (5 = 0%, 1 = 100%)
-    const damagePercent = 100 - ((avg - 1) / 4 * 100);
+    const damagePercent = 100 - ((avg - 1) / 5 * 100);
     document.getElementById('damagePercent').textContent = `${damagePercent.toFixed(0)}%`;
     document.getElementById('damageFill').style.width = `${damagePercent}%`;
     document.getElementById('damageFill').textContent = `${damagePercent.toFixed(0)}%`;
 
     let meterColor;
-    if (damagePercent <= 25) {
+    if (damagePercent <= 20) {
       meterColor = 'linear-gradient(90deg, #4caf50, #8bc34a)';
-    } else if (damagePercent <= 50) {
+    } else if (damagePercent <= 40) {
       meterColor = 'linear-gradient(90deg, #cddc39, #ffeb3b)';
-    } else if (damagePercent <= 75) {
+    } else if (damagePercent <= 60) {
+      meterColor = 'linear-gradient(90deg, #ffc107, #ff9800)';
+    } else if (damagePercent <= 80) {
       meterColor = 'linear-gradient(90deg, #ffc107, #ff9800)';
     } else {
       meterColor = 'linear-gradient(90deg, #ff5722, #f44336)';
     }
     document.getElementById('damageFill').style.background = meterColor;
+    
     // Đặt màu sắc cho thanh tiến trình và chữ dựa trên mức độ hư tổn
 let textColor;
 if (avg >= 4.0) {
