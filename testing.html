@@ -402,8 +402,7 @@ if (avg >= 4.0) {
     textColor = getComputedStyle(document.documentElement).getPropertyValue('--weak').trim();
 } else {
     textColor = getComputedStyle(document.documentElement).getPropertyValue('--critical').trim();
-}
-
+}    
 // Thanh tiến trình
 document.getElementById('damageFill').style.background = textColor;
 
@@ -451,15 +450,21 @@ if (avg >= 4.0) {
     "Hạn chế thực hiện uốn/duỗi", 
     "Có thể nhuộm màu cơ bản. Tuyệt đối không tẩy tóc"
   ];
-} else {
+} else if (avg < 1.0) {
   evaluation = "Hư tổn nghiêm trọng";
+  recommendation = "Tuyệt đối không làm hóa chất. Tập trung phục hồi, bảo vệ tóc.";
+  scoreClass = "score-severe";
+  evaluationClass = "evaluation-severe";
   recommendations = [
-    "Phục hồi chuyên sâu 2 lần 1 tuần", 
-    "Sử dụng các hoạt chất Amino Acid, Keratin thuỷ phân, Collagen Thuỷ phân, Protein peptide", 
-    "Kết hợp gội dưỡng phục hồi tại nhà", 
-    "Tuyệt đối không tẩy tóc và các dịch vụ uốn, duỗi", 
-    "Có thể nhuộm màu cơ bản", 
-    "Bảo vệ tóc khi ra nắng"
+    "Phục hồi chuyên sâu 2 lần/tuần",
+    "Sử dụng hoạt chất Amino Acid, Keratin, Collagen, Protein peptide",
+    "Kết hợp gội dưỡng phục hồi tại nhà",
+    "Tuyệt đối không tẩy, uốn, duỗi",
+    "Có thể nhuộm màu cơ bản nhẹ nhàng",
+    "Luôn che chắn tóc khi ra nắng"
+  ];
+}
+
   ];
 }
 
