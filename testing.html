@@ -10,10 +10,11 @@
       --muted:#a8557a;       
       --accent:#ec4899;      
       --glass: rgba(255,182,193,0.2); 
-      --good: #4caf50;       /* Màu cho tóc khỏe */
-      --medium: #ff9800;     /* Màu cho tóc trung bình */
-      --weak: #f44336;       /* Màu cho tóc yếu */
-      --critical: #9c27b0;   /* Màu cho tóc hư tổn nặng */
+      --good: #4caf50;       /* Màu xanh cho tóc khỏe */
+      --medium: #ff9800;     /* Màu cam cho tóc trung bình */
+      --weak: #e91e63;       /* Màu hồng đậm cho tóc yếu */
+      --critical: #f44336;   /* Màu đỏ cho tóc hư tổn nặng */
+      --severe:   #9c27b0;   /* Màu tím cho tóc hư tổn nghiêm trọng */
     }
     body {
       font-family: Inter, ui-sans-serif, system-ui, Segoe UI, Roboto, Helvetica, Arial;
@@ -308,31 +309,35 @@
     <tr>
       <th>Điểm trung bình</th>
       <th>Đánh giá</th>
-      <th>Hướng dẫn dịch vụ</th>
+      <th>Hoạt chất phục hồi</th>
     </tr>
     <tr>
       <td class="rating-good">4.0 – 5.0</td>
       <td class="rating-good">Tóc khỏe</td>
-      <td>Có thể thực hiện uốn/duỗi/nhuộm. Chỉ cần chăm dưỡng cơ bản.</td>
+      <td>Hoạt chất Protein Peptide, Collagen thuỷ phân. Có thể thực hiện uốn/duỗi/nhuộm bình thường.</td>
     </tr>
     <tr>
       <td class="rating-medium">3.0 – 3.9</td>
       <td class="rating-medium">Tóc trung bình</td>
-      <td>Nên phục hồi nhẹ trước & sau dịch vụ hóa chất.</td>
+      <td>Hoạt chất Amino Acid, Keratin thuỷ phân.Có thể thực hiện uốn/duỗi/nhuộm bình thường.</td>
     </tr>
     <tr>
       <td class="rating-weak">2.0 – 2.9</td>
       <td class="rating-weak">Tóc yếu</td>
-      <td>Hạn chế hóa chất mạnh. Khuyến nghị phục hồi chuyên sâu.</td>
+      <td>Hoạt chất Amino Acid, Keratin thuỷ phân, Collagen Thuỷ phân. Hạn chế thực hiện uốn/duỗi/nhuộm. </td>
     </tr>
     <tr>
-      <td class="rating-critical">&lt; 2.0</td>
+      <td class="rating-critical">&lt;1 - 1.9</td>
       <td class="rating-critical">Hư tổn nặng</td>
-      <td>Không nên làm hóa chất. Tập trung phục hồi, cắt tỉa.</td>
+      <td>Hoạt chất Amino Acid, Keratin thuỷ phân, Collagen Thuỷ phân. Hạn chế thực hiện uốn/duỗi. Có thể Nhuộm màu cơ bản. Tuyệt đối không tẩy tóc.</td>
     </tr>
+    <tr>
+  <td class="rating-severe">&lt;1.0</td>
+  <td class="rating-severe">Hư tổn nghiêm trọng</td>
+  <td>Amino Acid, Keratin thuỷ phân, Collagen Thuỷ phân, Protein peptide. Tuyệt đối không tẩy tóc và các dịch vụ uốn,duỗi. Có thể nhuộm màu cơ bản.</td>
+</tr>
   </table>
 </div>
-
 <script>
 function calculateAge() {
   const dob = document.getElementById('dob').value;
