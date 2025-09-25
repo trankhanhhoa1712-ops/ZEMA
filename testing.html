@@ -412,7 +412,7 @@ function calculateAverage() {
     evaluationEl.style.fontWeight = 'bold';
 
     // Đánh giá + khuyến nghị
-    let evaluation, recommendation, recommendations = [];
+    let evaluation,  recommendations = [];
     if (avg >= 4.0) {
       evaluation = "Tóc khỏe";
       recommendations = [
@@ -449,10 +449,10 @@ function calculateAverage() {
     } else if (avg == 1.0) {
       evaluation = "Hư tổn nghiêm trọng";
       recommendations = [
-        "Phục hồi chuyên sâu 2–3 lần/tuần (dưỡng chất đậm đặc, hấp phục hồi tại spa)", 
+        "Phục hồi chuyên sâu 2–3 lần/tuần", 
         "Sử dụng kết hợp Amino Acid, Keratin, Collagen, Protein peptide để tái tạo sợi tóc", 
-        "Tuyệt đối không tẩy, uốn, duỗi hoặc nhuộm màu đậm", 
-        "Nếu cần nhuộm, chỉ sử dụng màu tự nhiên/nhẹ nhàng, có phủ bóng bảo vệ", 
+        "Hạn chế không tẩy, uốn, duỗi, nhuộm", 
+        "Có thể nhuộm màu cơ bản", 
         "Luôn che chắn tóc khi ra nắng, hạn chế nhiệt "
       ];
     }
