@@ -402,10 +402,11 @@ if (avg >= 4.0) {
     textColor = getComputedStyle(document.documentElement).getPropertyValue('--medium').trim();
 } else if (avg >= 2.0) {
     textColor = getComputedStyle(document.documentElement).getPropertyValue('--weak').trim();
-} else {
+} else if (avg > 1.0) {
     textColor = getComputedStyle(document.documentElement).getPropertyValue('--critical').trim();
+} else if (avg === 1.0) {  
+    textColor = getComputedStyle(document.documentElement).getPropertyValue('--severe').trim();
 }
-
 // Thanh tiến trình
 document.getElementById('damageFill').style.background = textColor;
 
