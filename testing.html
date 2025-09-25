@@ -404,7 +404,7 @@ if (avg >= 4.0) {
     textColor = getComputedStyle(document.documentElement).getPropertyValue('--weak').trim();
 } else if (avg > 1.0) {
     textColor = getComputedStyle(document.documentElement).getPropertyValue('--critical').trim();
-} else if (avg === 1.0) {  
+} else   {
     textColor = getComputedStyle(document.documentElement).getPropertyValue('--severe').trim();
 }
 // Thanh tiến trình
