@@ -419,45 +419,50 @@ function calculateAverage() {
     evaluationEl.style.color = textColor;
     evaluationEl.style.fontWeight = 'bold';
   }
-}
+  
 </script>
- // Gán khuyến nghị
-let evaluation, recommendation, recommendations = [];
-if (avg >= 4.0) {
+// Gán khuyến nghị
+let evaluation = "";
+let recommendation = "";
+let recommendations = [];
+
+const avgNum = parseFloat(avg); // đảm bảo là số
+
+if (avgNum >= 4.0) {
   evaluation = "Tóc khỏe";
   recommendation = "Tóc bạn đang trong tình trạng tốt, cần duy trì chế độ chăm sóc định kỳ.";
   recommendations = [
-    "Phục hồi tần xuất: 2 lần 1 tháng", 
-    "Sử dụng các hoạt chất Protein Peptide, Collagen thuỷ phân", 
-    "Khuyến khích kết hợp dịch vụ cắt tỉa ngọn tóc định kỳ 1 lần/tháng", 
+    "Phục hồi tần suất: 2 lần 1 tháng",
+    "Sử dụng các hoạt chất Protein Peptide, Collagen thuỷ phân",
+    "Khuyến khích kết hợp dịch vụ cắt tỉa ngọn tóc định kỳ 1 lần/tháng",
     "Có thể thực hiện uốn/duỗi/nhuộm bình thường"
   ];
-} else if (avg >= 3.0) {
+} else if (avgNum >= 3.0) {
   evaluation = "Tóc trung bình";
   recommendation = "Tóc có dấu hiệu hư tổn nhẹ, cần chăm sóc phục hồi định kỳ.";
   recommendations = [
-    "Phục hồi tần suất 2 lần 1 tháng", 
-    "Sử dụng các hoạt chất Amino Acid, Keratin thuỷ phân", 
-    "Khuyến khích kết hợp xả dưỡng tại nhà để tăng hiệu quả", 
+    "Phục hồi tần suất 2 lần 1 tháng",
+    "Sử dụng các hoạt chất Amino Acid, Keratin thuỷ phân",
+    "Khuyến khích kết hợp xả dưỡng tại nhà để tăng hiệu quả",
     "Có thể thực hiện uốn/duỗi/nhuộm bình thường"
   ];
-} else if (avg >= 2.0) {
+} else if (avgNum >= 2.0) {
   evaluation = "Tóc yếu";
   recommendation = "Tóc yếu cần được phục hồi chuyên sâu và hạn chế tác động hóa chất.";
   recommendations = [
-    "Phục hồi chuyên sâu 1 lần 1 tuần", 
-    "Sử dụng các hoạt chất Amino Acid, Keratin, Collagen Thuỷ phân", 
-    "Khuyến khích kết hợp dịch vụ cắt tỉa ngọn tóc định kỳ 1 lần/tháng", 
+    "Phục hồi chuyên sâu 1 lần 1 tuần",
+    "Sử dụng các hoạt chất Amino Acid, Keratin, Collagen thuỷ phân",
+    "Khuyến khích kết hợp dịch vụ cắt tỉa ngọn tóc định kỳ 1 lần/tháng",
     "Hạn chế thực hiện uốn/duỗi/nhuộm"
   ];
-} else if (avg >= 1.0) {
+} else if (avgNum >= 1.0) {
   evaluation = "Hư tổn nặng";
   recommendation = "Tóc hư tổn nặng cần phục hồi tích cực và hạn chế tối đa hóa chất.";
   recommendations = [
-    "Phục hồi chuyên sâu 2 lần 1 tuần", 
-    "Sử dụng các hoạt chất Amino Acid, Keratin thuỷ phân, Collagen Thuỷ phân", 
-    "Kết hợp gội dưỡng phục hồi tại nhà", 
-    "Hạn chế thực hiện uốn/duỗi", 
+    "Phục hồi chuyên sâu 2 lần 1 tuần",
+    "Sử dụng các hoạt chất Amino Acid, Keratin thuỷ phân, Collagen thuỷ phân",
+    "Kết hợp gội dưỡng phục hồi tại nhà",
+    "Hạn chế thực hiện uốn/duỗi",
     "Có thể nhuộm màu cơ bản. Tuyệt đối không tẩy tóc"
   ];
 } else {
@@ -473,19 +478,25 @@ if (avg >= 4.0) {
   ];
 }
 
+// Cập nhật giao diện
 document.getElementById('evaluation').textContent = `Đánh giá: ${evaluation}`;
 document.getElementById('recommendationText').textContent = recommendation;
 
 const recommendationList = document.getElementById('recommendationList');
-recommendationList.innerHTML = '';
-recommendations.forEach(rec => {
-  const li = document.createElement('li');
-  li.textContent = rec;
-  recommendationList.appendChild(li);
-});
+if (recommendationList) {
+  recommendationList.innerHTML = '';
+  recommendations.forEach(rec => {
+    const li = document.createElement('li');
+    li.textContent = rec;
+    recommendationList.appendChild(li);
+  });
+}
 
 document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
+  if (count > 0) {
+  const avg = (total / count).toFixed(2);
+  // ... (đoạn sửa ở trên dùng avg)
 } else {
   alert("Vui lòng chấm điểm tất cả tiêu chí.");
 }
-}
+
