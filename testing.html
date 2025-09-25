@@ -357,11 +357,10 @@ function calculateAge() {
   }
   document.getElementById('ageDisplay').innerHTML = `Tuổi: <b>${age}</b>`;
 }
-// GÁN CÔNG THỨC
+
 function calculateAverage() {
   const form = document.getElementById('surveyForm');
   let total = 0, count = 0;
-
   for (let i = 1; i <= 6; i++) {
     const rating = form.querySelector(`input[name="q${i}"]:checked`);
     if (rating) {
@@ -370,105 +369,116 @@ function calculateAverage() {
     }
   }
 
-  if (count === 6) {
-    const avg = (total / count).toFixed(1);
-    const avgNum = parseFloat(avg);
-
-    let evaluation, recommendation, recommendations = [];
-
-    if (avgNum >= 4.0) {
-      evaluation = "Tóc khỏe";
-      recommendation = "Tóc bạn đang trong tình trạng tốt, cần duy trì chế độ chăm sóc định kỳ.";
-      recommendations = [
-        "Phục hồi tần xuất: 2 lần 1 tháng", 
-        "Sử dụng các hoạt chất Protein Peptide, Collagen thuỷ phân", 
-        "Khuyến khích kết hợp dịch vụ cắt tỉa ngọn tóc định kỳ 1 lần/tháng", 
-        "Có thể thực hiện uốn/duỗi/nhuộm bình thường"
-      ];
-    } else if (avgNum >= 3.0) {
-      evaluation = "Tóc trung bình";
-      recommendation = "Tóc có dấu hiệu hư tổn nhẹ, cần chăm sóc phục hồi định kỳ.";
-      recommendations = [
-        "Phục hồi tần suất 2 lần 1 tháng", 
-        "Sử dụng các hoạt chất Amino Acid, Keratin thuỷ phân", 
-        "Khuyến khích kết hợp xả dưỡng tại nhà để tăng hiệu quả", 
-        "Có thể thực hiện uốn/duỗi/nhuộm bình thường"
-      ];
-    } else if (avgNum >= 2.0) {
-      evaluation = "Tóc yếu";
-      recommendation = "Tóc yếu cần được phục hồi chuyên sâu và hạn chế tác động hóa chất.";
-      recommendations = [
-        "Phục hồi chuyên sâu 1 lần 1 tuần", 
-        "Sử dụng các hoạt chất Amino Acid, Keratin, Collagen Thuỷ phân", 
-        "Khuyến khích kết hợp dịch vụ cắt tỉa ngọn tóc định kỳ 1 lần/tháng", 
-        "Hạn chế thực hiện uốn/duỗi/nhuộm"
-      ];
-    } else if (avgNum >= 1.0) {
-      evaluation = "Hư tổn nặng";
-      recommendation = "Tóc hư tổn nặng cần phục hồi tích cực và hạn chế tối đa hóa chất.";
-      recommendations = [
-        "Phục hồi chuyên sâu 2 lần 1 tuần", 
-        "Sử dụng các hoạt chất Amino Acid, Keratin thuỷ phân, Collagen Thuỷ phân", 
-        "Kết hợp gội dưỡng phục hồi tại nhà", 
-        "Hạn chế thực hiện uốn/duỗi", 
-        "Có thể nhuộm màu cơ bản. Tuyệt đối không tẩy tóc"
-      ];
-    } else {
-      evaluation = "Hư tổn nghiêm trọng";
-      recommendation = "Tuyệt đối không làm hóa chất. Tập trung phục hồi, bảo vệ tóc.";
-      recommendations = [
-        "Phục hồi chuyên sâu 2 lần/tuần",
-        "Sử dụng hoạt chất Amino Acid, Keratin, Collagen, Protein peptide",
-        "Kết hợp gội dưỡng phục hồi tại nhà",
-        "Tuyệt đối không tẩy, uốn, duỗi",
-        "Có thể nhuộm màu cơ bản nhẹ nhàng",
-        "Luôn che chắn tóc khi ra nắng"
-      ];
-    }
-
-    // Gán điểm trung bình
-    const avgBox = document.getElementById('averageScore');
-    avgBox.textContent = `Điểm trung bình: ${avg}`;
-    avgBox.className = "average-score"; // reset class
-
-    // Gán đánh giá
-    const evalBox = document.getElementById('evaluation');
-    evalBox.textContent = `Đánh giá: ${evaluation}`;
-    evalBox.className = "evaluation"; // reset class
-
-    // Thêm màu theo mức độ
-    if (avgNum >= 4.0) {
-      avgBox.classList.add("score-good");
-      evalBox.classList.add("evaluation-good");
-    } else if (avgNum >= 3.0) {
-      avgBox.classList.add("score-medium");
-      evalBox.classList.add("evaluation-medium");
-    } else if (avgNum >= 2.0) {
-      avgBox.classList.add("score-weak");
-      evalBox.classList.add("evaluation-weak");
-    } else if (avgNum >= 1.0) {
-      avgBox.classList.add("score-critical");
-      evalBox.classList.add("evaluation-critical");
-    } else {
-      avgBox.classList.add("score-severe");
-      evalBox.classList.add("evaluation-severe");
-    }
-
-    // Gán khuyến nghị
-    document.getElementById('recommendationText').textContent = recommendation;
-
-    const recommendationList = document.getElementById('recommendationList');
-    recommendationList.innerHTML = '';
-    recommendations.forEach(rec => {
-      const li = document.createElement('li');
-      li.textContent = rec;
-      recommendationList.appendChild(li);
-    });
-
+  if (count > 0) {
+    const avg = (total / count).toFixed(2);
     document.getElementById('result').style.display = 'block';
-    document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('averageScore').textContent = `Điểm: ${avg}`;
 
-  } else {
-    alert("Vui lòng chấm điểm tất cả tiêu chí.");
-  }
+    // % hư tổn (5 = 0%, 1 = 100%)
+    const damagePercent = 100 - ((avg - 1) / 5 * 100);
+    document.getElementById('damagePercent').textContent = `${damagePercent.toFixed(0)}%`;
+    document.getElementById('damageFill').style.width = `${damagePercent}%`;
+    document.getElementById('damageFill').textContent = `${damagePercent.toFixed(0)}%`;
+
+    let meterColor;
+    if (damagePercent <= 20) {
+      meterColor = 'linear-gradient(90deg, #4caf50, #8bc34a)';
+    } else if (damagePercent <= 40) {
+      meterColor = 'linear-gradient(90deg, #cddc39, #ffeb3b)';
+    } else if (damagePercent <= 60) {
+      meterColor = 'linear-gradient(90deg, #ffc107, #ff9800)';
+    } else if (damagePercent <= 80) {
+      meterColor = 'linear-gradient(90deg, #ffc107, #ff9800)';
+    } else {
+      meterColor = 'linear-gradient(90deg, #ff5722, #f44336)';
+    }
+    document.getElementById('damageFill').style.background = meterColor;
+    
+    // Đặt màu sắc cho thanh tiến trình và chữ dựa trên mức độ hư tổn
+let textColor;
+if (avg >= 4.0) {
+    textColor = getComputedStyle(document.documentElement).getPropertyValue('--good').trim();
+} else if (avg >= 3.0) {
+    textColor = getComputedStyle(document.documentElement).getPropertyValue('--medium').trim();
+} else if (avg >= 2.0) {
+    textColor = getComputedStyle(document.documentElement).getPropertyValue('--weak').trim();
+} else {
+    textColor = getComputedStyle(document.documentElement).getPropertyValue('--critical').trim();
 }
+
+// Thanh tiến trình
+document.getElementById('damageFill').style.background = textColor;
+
+// Áp dụng màu chữ + in đậm cho Điểm và Đánh giá
+const avgScoreEl = document.getElementById('averageScore');
+avgScoreEl.style.color = textColor;
+avgScoreEl.style.fontWeight = 'bold';
+
+const evaluationEl = document.getElementById('evaluation');
+evaluationEl.style.color = textColor;
+evaluationEl.style.fontWeight = 'bold';
+
+   // Gán khuyến nghị
+let evaluation, recommendation, recommendations = [];
+if (avg >= 4.0) {
+  evaluation = "Tóc khỏe";
+  recommendations = [
+    "Phục hồi tần xuất: 2 lần 1 tháng", 
+    "Sử dụng các hoạt chất Protein Peptide, Collagen thuỷ phân", 
+    "Khuyến khích kết hợp dịch vụ cắt tỉa ngọn tóc định kỳ 1 lần/tháng", 
+    "Có thể thực hiện uốn/duỗi/nhuộm bình thường"
+  ];
+} else if (avg >= 3.0) {
+  evaluation = "Tóc trung bình";
+  recommendations = [
+    "Phục hồi tần suất 2 lần 1 tháng", 
+    "Sử dụng các hoạt chất Amino Acid, Keratin thuỷ phân", 
+    "Khuyến khích kết hợp xả dưỡng tại nhà để tăng hiệu quả", 
+    "Có thể thực hiện uốn/duỗi/nhuộm bình thường"
+  ];
+} else if (avg >= 2.0) {
+  evaluation = "Tóc yếu";
+  recommendations = [
+    "Phục hồi chuyên sâu 1 lần 1 tuần", 
+    "Sử dụng các hoạt chất Amino Acid, Keratin, Collagen Thuỷ phân", 
+    "Khuyến khích kết hợp dịch vụ cắt tỉa ngọn tóc định kỳ 1 lần/tháng", 
+    "Hạn chế thực hiện uốn/duỗi/nhuộm"
+  ];
+} else if (avg >= 1.0) {
+  evaluation = "Hư tổn nặng";
+  recommendations = [
+    "Phục hồi chuyên sâu 2 lần 1 tuần", 
+    "Sử dụng các hoạt chất Amino Acid, Keratin thuỷ phân, Collagen Thuỷ phân", 
+    "Kết hợp gội dưỡng phục hồi tại nhà", 
+    "Hạn chế thực hiện uốn/duỗi", 
+    "Có thể nhuộm màu cơ bản. Tuyệt đối không tẩy tóc"
+  ];
+} else {
+  evaluation = "Hư tổn nghiêm trọng";
+  recommendations = [
+    "Phục hồi chuyên sâu 2 lần 1 tuần", 
+    "Sử dụng các hoạt chất Amino Acid, Keratin thuỷ phân, Collagen Thuỷ phân, Protein peptide", 
+    "Kết hợp gội dưỡng phục hồi tại nhà", 
+    "Tuyệt đối không tẩy tóc và các dịch vụ uốn, duỗi", 
+    "Có thể nhuộm màu cơ bản", 
+    "Bảo vệ tóc khi ra nắng"
+  ];
+}
+
+document.getElementById('evaluation').textContent = `Đánh giá: ${evaluation}`;
+document.getElementById('recommendationText').textContent = recommendation;
+
+const recommendationList = document.getElementById('recommendationList');
+recommendationList.innerHTML = '';
+recommendations.forEach(rec => {
+  const li = document.createElement('li');
+  li.textContent = rec;
+  recommendationList.appendChild(li);
+});
+
+document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
+} else {
+  alert("Vui lòng chấm điểm tất cả tiêu chí.");
+}
+}
+</script>
