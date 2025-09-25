@@ -436,25 +436,24 @@ function calculateAverage() {
     evalBox.textContent = `Đánh giá: ${evaluation}`;
     evalBox.className = "evaluation"; // reset class
 
-   // Gán kết quả
-const evaluationElement = document.getElementById('evaluation');
-evaluationElement.textContent = `Đánh giá: ${evaluation}`;
+    // Thêm màu theo mức độ
+    if (avgNum >= 4.0) {
+      avgBox.classList.add("score-good");
+      evalBox.classList.add("evaluation-good");
+    } else if (avgNum >= 3.0) {
+      avgBox.classList.add("score-medium");
+      evalBox.classList.add("evaluation-medium");
+    } else if (avgNum >= 2.0) {
+      avgBox.classList.add("score-weak");
+      evalBox.classList.add("evaluation-weak");
+    } else if (avgNum >= 1.0) {
+      avgBox.classList.add("score-critical");
+      evalBox.classList.add("evaluation-critical");
+    } else {
+      avgBox.classList.add("score-severe");
+      evalBox.classList.add("evaluation-severe");
+    }
 
-// Reset màu trước
-evaluationElement.style.color = "";
-
-// Gán màu theo mức
-if (avg >= 4.0) {
-  evaluationElement.style.color = "var(--good)";
-} else if (avg >= 3.0) {
-  evaluationElement.style.color = "var(--medium)";
-} else if (avg >= 2.0) {
-  evaluationElement.style.color = "var(--weak)";
-} else if (avg >= 1.0) {
-  evaluationElement.style.color = "var(--critical)";
-} else {
-  evaluationElement.style.color = "var(--severe)";  // Màu tím cho hư tổn nghiêm trọng
-}
     // Gán khuyến nghị
     document.getElementById('recommendationText').textContent = recommendation;
 
