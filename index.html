@@ -10,10 +10,11 @@
       --muted:#a8557a;       
       --accent:#ec4899;      
       --glass: rgba(255,182,193,0.2); 
-      --good: #4caf50;       /* Màu cho tóc khỏe */
-      --medium: #ff9800;     /* Màu cho tóc trung bình */
-      --weak: #f44336;       /* Màu cho tóc yếu */
-      --critical: #9c27b0;   /* Màu cho tóc hư tổn nặng */
+      --good: #4caf50;       /* Màu xanh cho tóc khỏe */
+      --medium: #ff9800;     /* Màu cam cho tóc trung bình */
+      --weak: #e91e63;       /* Màu hồng đậm cho tóc yếu */
+      --critical: #f44336;   /* Màu đỏ cho tóc hư tổn nặng */
+      --severe:   #9c27b0;   /* Màu tím cho tóc hư tổn nghiêm trọng */
     }
     body {
       font-family: Inter, ui-sans-serif, system-ui, Segoe UI, Roboto, Helvetica, Arial;
@@ -308,31 +309,35 @@
     <tr>
       <th>Điểm trung bình</th>
       <th>Đánh giá</th>
-      <th>Hướng dẫn dịch vụ</th>
+      <th>Hoạt chất phục hồi</th>
     </tr>
     <tr>
       <td class="rating-good">4.0 – 5.0</td>
       <td class="rating-good">Tóc khỏe</td>
-      <td>Có thể thực hiện uốn/duỗi/nhuộm. Chỉ cần chăm dưỡng cơ bản.</td>
+      <td>Hoạt chất Protein Peptide, Collagen thuỷ phân.</td>
     </tr>
     <tr>
       <td class="rating-medium">3.0 – 3.9</td>
       <td class="rating-medium">Tóc trung bình</td>
-      <td>Nên phục hồi nhẹ trước & sau dịch vụ hóa chất.</td>
+      <td>Hoạt chất Amino Acid, Keratin thuỷ phân.</td>
     </tr>
     <tr>
       <td class="rating-weak">2.0 – 2.9</td>
       <td class="rating-weak">Tóc yếu</td>
-      <td>Hạn chế hóa chất mạnh. Khuyến nghị phục hồi chuyên sâu.</td>
+      <td>Hoạt chất Amino Acid, Keratin thuỷ phân, Collagen Thuỷ phân. </td>
     </tr>
     <tr>
-      <td class="rating-critical">&lt; 2.0</td>
+      <td class="rating-critical">1.1 - 1.9</td>
       <td class="rating-critical">Hư tổn nặng</td>
-      <td>Không nên làm hóa chất. Tập trung phục hồi, cắt tỉa.</td>
+      <td>Hoạt chất Amino Acid, Keratin thuỷ phân, Collagen Thuỷ phân.</td>
     </tr>
+    <tr>
+  <td class="rating-severe">1.0</td>
+  <td class="rating-severe">Hư tổn nghiêm trọng</td>
+  <td>Hoạt chất Amino Acid, Keratin, Collagen Thuỷ phân, Protein peptide.</td>
+</tr>
   </table>
 </div>
-
 <script>
 function calculateAge() {
   const dob = document.getElementById('dob').value;
@@ -364,22 +369,25 @@ function calculateAverage() {
     document.getElementById('averageScore').textContent = `Điểm: ${avg}`;
 
     // % hư tổn (5 = 0%, 1 = 100%)
-    const damagePercent = 100 - ((avg - 1) / 4 * 100);
+    const damagePercent = 100 - ((avg - 1) / 5 * 100);
     document.getElementById('damagePercent').textContent = `${damagePercent.toFixed(0)}%`;
     document.getElementById('damageFill').style.width = `${damagePercent}%`;
     document.getElementById('damageFill').textContent = `${damagePercent.toFixed(0)}%`;
 
     let meterColor;
-    if (damagePercent <= 25) {
+    if (damagePercent <= 20) {
       meterColor = 'linear-gradient(90deg, #4caf50, #8bc34a)';
-    } else if (damagePercent <= 50) {
+    } else if (damagePercent <= 40) {
       meterColor = 'linear-gradient(90deg, #cddc39, #ffeb3b)';
-    } else if (damagePercent <= 75) {
+    } else if (damagePercent <= 60) {
+      meterColor = 'linear-gradient(90deg, #ffc107, #ff9800)';
+    } else if (damagePercent <= 80) {
       meterColor = 'linear-gradient(90deg, #ffc107, #ff9800)';
     } else {
       meterColor = 'linear-gradient(90deg, #ff5722, #f44336)';
     }
     document.getElementById('damageFill').style.background = meterColor;
+    
     // Đặt màu sắc cho thanh tiến trình và chữ dựa trên mức độ hư tổn
 let textColor;
 if (avg >= 4.0) {
@@ -404,40 +412,67 @@ const evaluationEl = document.getElementById('evaluation');
 evaluationEl.style.color = textColor;
 evaluationEl.style.fontWeight = 'bold';
 
-    // Gán khuyến nghị
-    let evaluation, recommendation, recommendations = [];
-    if (avg >= 4.0) {
-      evaluation = "Tóc khỏe";
-      recommendation = "Có thể thực hiện uốn/duỗi/nhuộm. Chỉ cần chăm dưỡng cơ bản.";
-      recommendations = ["Dưỡng tóc nhẹ nhàng 1 lần/tuần", "Che chắn khi ra ngoài", "Cắt tỉa ngọn định kỳ 3 tháng/lần"];
-    } else if (avg >= 3.0) {
-      evaluation = "Tóc trung bình";
-      recommendation = "Nên phục hồi nhẹ trước & sau dịch vụ hóa chất.";
-      recommendations = ["Phục hồi tại salon 1-2 lần/tháng", "Dầu dưỡng hằng ngày", "Cắt tỉa 2-3 tháng/lần"];
-    } else if (avg >= 2.0) {
-      evaluation = "Tóc yếu";
-      recommendation = "Hạn chế hóa chất mạnh. Khuyến nghị phục hồi chuyên sâu.";
-      recommendations = ["Phục hồi chuyên sâu 2-3 lần/tháng", "Serum dưỡng chứa Protein", "Hạn chế nhiệt", "Cắt tỉa 6-8 tuần/lần"];
-    } else {
-      evaluation = "Hư tổn nặng";
-      recommendation = "Không nên làm hóa chất. Tập trung phục hồi, cắt tỉa.";
-      recommendations = ["Phục hồi tại salon 1-2 lần/tuần", "Bond building treatment", "Cắt bỏ phần hư tổn", "Tránh hóa chất 3 tháng", "Bảo vệ tóc khi ra nắng"];
-    }
+   // Gán khuyến nghị
+let evaluation, recommendation, recommendations = [];
+if (avg >= 4.0) {
+  evaluation = "Tóc khỏe";
+  recommendations = [
+    "Phục hồi tần xuất: 2 lần 1 tháng", 
+    "Sử dụng các hoạt chất Protein Peptide, Collagen thuỷ phân", 
+    "Khuyến khích kết hợp dịch vụ cắt tỉa ngọn tóc định kỳ 1 lần/tháng", 
+    "Có thể thực hiện uốn/duỗi/nhuộm bình thường"
+  ];
+} else if (avg >= 3.0) {
+  evaluation = "Tóc trung bình";
+  recommendations = [
+    "Phục hồi tần suất 2 lần 1 tháng", 
+    "Sử dụng các hoạt chất Amino Acid, Keratin thuỷ phân", 
+    "Khuyến khích kết hợp xả dưỡng tại nhà để tăng hiệu quả", 
+    "Có thể thực hiện uốn/duỗi/nhuộm bình thường"
+  ];
+} else if (avg >= 2.0) {
+  evaluation = "Tóc yếu";
+  recommendations = [
+    "Phục hồi chuyên sâu 1 lần 1 tuần", 
+    "Sử dụng các hoạt chất Amino Acid, Keratin, Collagen Thuỷ phân", 
+    "Khuyến khích kết hợp dịch vụ cắt tỉa ngọn tóc định kỳ 1 lần/tháng", 
+    "Hạn chế thực hiện uốn/duỗi/nhuộm"
+  ];
+} else if (avg >= 1.0) {
+  evaluation = "Hư tổn nặng";
+  recommendations = [
+    "Phục hồi chuyên sâu 2 lần 1 tuần", 
+    "Sử dụng các hoạt chất Amino Acid, Keratin thuỷ phân, Collagen Thuỷ phân", 
+    "Kết hợp gội dưỡng phục hồi tại nhà", 
+    "Hạn chế thực hiện uốn/duỗi", 
+    "Có thể nhuộm màu cơ bản. Tuyệt đối không tẩy tóc"
+  ];
+} else {
+  evaluation = "Hư tổn nghiêm trọng";
+  recommendations = [
+    "Phục hồi chuyên sâu 2 lần 1 tuần", 
+    "Sử dụng các hoạt chất Amino Acid, Keratin thuỷ phân, Collagen Thuỷ phân, Protein peptide", 
+    "Kết hợp gội dưỡng phục hồi tại nhà", 
+    "Tuyệt đối không tẩy tóc và các dịch vụ uốn, duỗi", 
+    "Có thể nhuộm màu cơ bản", 
+    "Bảo vệ tóc khi ra nắng"
+  ];
+}
 
-    document.getElementById('evaluation').textContent = `Đánh giá: ${evaluation}`;
-    document.getElementById('recommendationText').textContent = recommendation;
+document.getElementById('evaluation').textContent = `Đánh giá: ${evaluation}`;
+document.getElementById('recommendationText').textContent = recommendation;
 
-    const recommendationList = document.getElementById('recommendationList');
-    recommendationList.innerHTML = '';
-    recommendations.forEach(rec => {
-      const li = document.createElement('li');
-      li.textContent = rec;
-      recommendationList.appendChild(li);
-    });
+const recommendationList = document.getElementById('recommendationList');
+recommendationList.innerHTML = '';
+recommendations.forEach(rec => {
+  const li = document.createElement('li');
+  li.textContent = rec;
+  recommendationList.appendChild(li);
+});
 
-    document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
-  } else {
-    alert("Vui lòng chấm điểm tất cả tiêu chí.");
-  }
+document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
+} else {
+  alert("Vui lòng chấm điểm tất cả tiêu chí.");
+}
 }
 </script>
