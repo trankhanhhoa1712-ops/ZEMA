@@ -292,7 +292,7 @@
     <div class="average-score" id="averageScore"></div>
   </div>
   
-  <!-- Thanh đo hư tổn -->
+  /// Thanh đo hư tổn
 <div class="damage-meter">
   <div style="margin-bottom:8px;">Độ hư tổn: <span id="damagePercent">0%</span></div>
   <div style="width:100%; background:#eee; border-radius:10px; overflow:hidden;">
@@ -302,50 +302,50 @@
   </div>
 </div>
 
-  <!-- Đánh giá -->
-  <div class="evaluation" id="evaluation"></div>
+<!-- Đánh giá -->
+<div class="evaluation" id="evaluation"></div>
 
-  <!-- Khuyến nghị -->
-  <div class="recommendation">
-    <div class="recommendation-title">Hướng dẫn dịch vụ:</div>
-    <div id="recommendationText"></div>
-    <ul id="recommendationList"></ul>
-  </div>
-  
-  <!-- Bảng hướng dẫn -->
-  <table class="guide-table">
-    <tr>
-      <th>Điểm trung bình</th>
-      <th>Đánh giá</th>
-      <th>Hoạt chất phục hồi</th>
-    </tr>
-    <tr>
-      <td class="rating-good">4.0 – 5.0</td>
-      <td class="rating-good">Tóc khỏe</td>
-      <td>Hoạt chất Protein Peptide, Collagen thuỷ phân.</td>
-    </tr>
-    <tr>
-      <td class="rating-medium">3.0 – 3.9</td>
-      <td class="rating-medium">Tóc trung bình</td>
-      <td>Hoạt chất Amino Acid, Keratin thuỷ phân.</td>
-    </tr>
-    <tr>
-      <td class="rating-weak">2.0 – 2.9</td>
-      <td class="rating-weak">Tóc yếu</td>
-      <td>Hoạt chất Amino Acid, Keratin thuỷ phân, Collagen Thuỷ phân. </td>
-    </tr>
-    <tr>
-      <td class="rating-critical">1.1 - 1.9</td>
-      <td class="rating-critical">Hư tổn nặng</td>
-      <td>Hoạt chất Amino Acid, Keratin thuỷ phân, Collagen Thuỷ phân.</td>
-    </tr>
-    <tr>
-  <td class="rating-severe">1.0</td>
-  <td class="rating-severe">Hư tổn nghiêm trọng</td>
-  <td>Hoạt chất Amino Acid, Keratin, Collagen Thuỷ phân, Protein peptide.</td>
-</tr>
-  </table>
+<!-- Khuyến nghị -->
+<div class="recommendation">
+  <div class="recommendation-title">Hướng dẫn dịch vụ:</div>
+  <div id="recommendationText"></div>
+  <ul id="recommendationList"></ul>
 </div>
+
+<!-- Bảng hướng dẫn -->
+<table class="guide-table">
+  <tr>
+    <th>Điểm trung bình</th>
+    <th>Đánh giá</th>
+    <th>Hoạt chất phục hồi</th>
+  </tr>
+  <tr>
+    <td class="rating-good">4.0 – 5.0</td>
+    <td class="rating-good">Tóc khỏe</td>
+    <td>Hoạt chất Protein Peptide, Collagen thuỷ phân.</td>
+  </tr>
+  <tr>
+    <td class="rating-medium">3.0 – 3.9</td>
+    <td class="rating-medium">Tóc trung bình</td>
+    <td>Hoạt chất Amino Acid, Keratin thuỷ phân.</td>
+  </tr>
+  <tr>
+    <td class="rating-weak">2.0 – 2.9</td>
+    <td class="rating-weak">Tóc yếu</td>
+    <td>Hoạt chất Amino Acid, Keratin thuỷ phân, Collagen Thuỷ phân.</td>
+  </tr>
+  <tr>
+    <td class="rating-critical">1.1 - 1.9</td>
+    <td class="rating-critical">Hư tổn nặng</td>
+    <td>Hoạt chất Amino Acid, Keratin thuỷ phân, Collagen Thuỷ phân.</td>
+  </tr>
+  <tr>
+    <td class="rating-severe">1.0</td>
+    <td class="rating-severe">Hư tổn nghiêm trọng</td>
+    <td>Hoạt chất Amino Acid, Keratin, Collagen Thuỷ phân, Protein peptide.</td>
+  </tr>
+</table>
+
 <script>
 function calculateAge() {
   const dob = document.getElementById('dob').value;
@@ -363,12 +363,14 @@ function calculateAge() {
 function calculateAverage() {
   const form = document.getElementById('surveyForm');
   let total = 0, count = 0;
+  
   for (let i = 1; i <= 6; i++) {
     const rating = form.querySelector(`input[name="q${i}"]:checked`);
     if (rating) {
       total += parseInt(rating.value);
       count++;
     }
+  }
 
   if (count > 0) {
     const avg = (total / count).toFixed(2);
@@ -378,46 +380,48 @@ function calculateAverage() {
     // % hư tổn (5 = 0%, 1 = 100%)
     const damagePercent = 100 - ((avg - 1) / 5 * 100);
     document.getElementById('damagePercent').textContent = `${damagePercent.toFixed(0)}%`;
-    document.getElementById('damageFill').style.width = `${damagePercent}%`;
-    document.getElementById('damageFill').textContent = `${damagePercent.toFixed(0)}%`;
-
-    let meterColor;
-    if (damagePercent <= 20) {
-      meterColor = 'linear-gradient(90deg, #4caf50, #8bc34a)';
-    } else if (damagePercent <= 40) {
-      meterColor = 'linear-gradient(90deg, #cddc39, #ffeb3b)';
-    } else if (damagePercent <= 60) {
-      meterColor = 'linear-gradient(90deg, #ffc107, #ff9800)';
-    } else if (damagePercent <= 80) {
-      meterColor = 'linear-gradient(90deg, #ffc107, #ff9800)';
-    } else {
-      meterColor = 'linear-gradient(90deg, #ff5722, #f44336)';
-    }
-    document.getElementById('damageFill').style.background = meterColor;
     
-    // Đặt màu sắc cho thanh tiến trình và chữ dựa trên mức độ hư tổn
-let textColor;
-if (avg >= 4.0) {
-    textColor = getComputedStyle(document.documentElement).getPropertyValue('--good').trim();
-} else if (avg >= 3.0) {
-    textColor = getComputedStyle(document.documentElement).getPropertyValue('--medium').trim();
-} else if (avg >= 2.0) {
-    textColor = getComputedStyle(document.documentElement).getPropertyValue('--weak').trim();
-} else {
-    textColor = getComputedStyle(document.documentElement).getPropertyValue('--critical').trim();
-}    
-// Thanh tiến trình
-document.getElementById('damageFill').style.background = textColor;
+    const damageFill = document.getElementById('damageFill');
+    damageFill.style.width = `${damagePercent}%`;
+    damageFill.textContent = `${damagePercent.toFixed(0)}%`;
 
-// Áp dụng màu chữ + in đậm cho Điểm và Đánh giá
-const avgScoreEl = document.getElementById('averageScore');
-avgScoreEl.style.color = textColor;
-avgScoreEl.style.fontWeight = 'bold';
+    // Xác định màu sắc dựa trên điểm trung bình
+    let textColor;
+    let evaluationText = '';
+    
+    if (avg >= 4.0) {
+        textColor = getComputedStyle(document.documentElement).getPropertyValue('--good').trim();
+        evaluationText = 'Tóc khỏe';
+    } else if (avg >= 3.0) {
+        textColor = getComputedStyle(document.documentElement).getPropertyValue('--medium').trim();
+        evaluationText = 'Tóc trung bình';
+    } else if (avg >= 2.0) {
+        textColor = getComputedStyle(document.documentElement).getPropertyValue('--weak').trim();
+        evaluationText = 'Tóc yếu';
+    } else if (avg >= 1.1) {
+        textColor = getComputedStyle(document.documentElement).getPropertyValue('--critical').trim();
+        evaluationText = 'Hư tổn nặng';
+    } else {
+        textColor = getComputedStyle(document.documentElement).getPropertyValue('--severe').trim();
+        evaluationText = 'Hư tổn nghiêm trọng';
+    }
+    
+    // Thanh tiến trình
+    damageFill.style.background = textColor;
 
-const evaluationEl = document.getElementById('evaluation');
-evaluationEl.style.color = textColor;
-evaluationEl.style.fontWeight = 'bold';
+    // Áp dụng màu chữ + in đậm cho Điểm và Đánh giá
+    const avgScoreEl = document.getElementById('averageScore');
+    avgScoreEl.style.color = textColor;
+    avgScoreEl.style.fontWeight = 'bold';
 
+    const evaluationEl = document.getElementById('evaluation');
+    evaluationEl.textContent = evaluationText;
+    evaluationEl.style.color = textColor;
+    evaluationEl.style.fontWeight = 'bold';
+  }
+}
+</script>
+  
    // Gán khuyến nghị
 let evaluation, recommendation, recommendations = [];
 if (avg >= 4.0) {
