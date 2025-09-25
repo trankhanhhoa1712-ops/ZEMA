@@ -198,6 +198,10 @@
       color: var(--critical);
       font-weight: bold;
     }
+    .rating-severe {
+  color: var(--severe);
+  font-weight: bold;
+}
   </style>
 </head>
 <body>
@@ -462,7 +466,7 @@ function calculateAverage() {
     // Hiển thị kết quả
     document.getElementById('evaluation').textContent = `Đánh giá: ${evaluation}`;
     document.getElementById('recommendationText').textContent = recommendation;
-
+    // Render khuyến nghị
     const recommendationList = document.getElementById('recommendationList');
     recommendationList.innerHTML = '';
     recommendations.forEach(rec => {
