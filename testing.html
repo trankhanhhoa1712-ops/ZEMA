@@ -310,7 +310,6 @@
   <!-- Khuyến nghị -->
   <div class="recommendation">
     <div class="recommendation-title">Hướng dẫn dịch vụ:</div>
-    <div id="recommendationText"></div>
     <ul id="recommendationList"></ul>
   </div>
   
@@ -459,7 +458,6 @@ function calculateAverage() {
 
     // Hiển thị kết quả
     document.getElementById('evaluation').textContent = `Đánh giá: ${evaluation}`;
-    document.getElementById('recommendationText').textContent = recommendation;
     // Render khuyến nghị
     const recommendationList = document.getElementById('recommendationList');
     recommendationList.innerHTML = '';
