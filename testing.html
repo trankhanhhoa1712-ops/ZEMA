@@ -415,7 +415,6 @@ function calculateAverage() {
     let evaluation, recommendation, recommendations = [];
     if (avg >= 4.0) {
       evaluation = "Tóc khỏe";
-      recommendation = "Tóc bạn đang trong tình trạng tốt, cần duy trì chế độ chăm sóc định kỳ.";
       recommendations = [
         "Phục hồi tần xuất: 2 lần 1 tháng", 
         "Sử dụng các hoạt chất Protein Peptide, Collagen thuỷ phân", 
@@ -424,7 +423,6 @@ function calculateAverage() {
       ];
     } else if (avg >= 3.0) {
       evaluation = "Tóc trung bình";
-      recommendation = "Tóc có dấu hiệu hư tổn nhẹ, cần chăm sóc phục hồi định kỳ.";
       recommendations = [
         "Phục hồi tần suất 2 lần 1 tháng", 
         "Sử dụng các hoạt chất Amino Acid, Keratin thuỷ phân", 
@@ -433,7 +431,6 @@ function calculateAverage() {
       ];
     } else if (avg >= 2.0) {
       evaluation = "Tóc yếu";
-      recommendation = "Tóc yếu cần được phục hồi chuyên sâu và hạn chế tác động hóa chất.";
       recommendations = [
         "Phục hồi chuyên sâu 1 lần 1 tuần", 
         "Sử dụng các hoạt chất Amino Acid, Keratin, Collagen Thuỷ phân", 
@@ -442,7 +439,6 @@ function calculateAverage() {
       ];
     } else if (avg > 1.0) {
       evaluation = "Hư tổn nặng";
-      recommendation = "Tóc hư tổn nặng cần phục hồi tích cực và hạn chế tối đa hóa chất.";
       recommendations = [
         "Phục hồi chuyên sâu 2 lần 1 tuần", 
         "Sử dụng các hoạt chất Amino Acid, Keratin thuỷ phân, Collagen Thuỷ phân", 
@@ -452,14 +448,12 @@ function calculateAverage() {
       ];
     } else if (avg == 1.0) {
       evaluation = "Hư tổn nghiêm trọng";
-      recommendation = "Tóc cực kỳ yếu, dễ gãy rụng. Tuyệt đối không làm hóa chất, cần tập trung phục hồi và bảo vệ.";
       recommendations = [
         "Phục hồi chuyên sâu 2–3 lần/tuần (dưỡng chất đậm đặc, hấp phục hồi tại spa)", 
         "Sử dụng kết hợp Amino Acid, Keratin, Collagen, Protein peptide để tái tạo sợi tóc", 
-        "Ưu tiên dịch vụ hấp lạnh hoặc phục hồi nano không xâm lấn", 
         "Tuyệt đối không tẩy, uốn, duỗi hoặc nhuộm màu đậm", 
         "Nếu cần nhuộm, chỉ sử dụng màu tự nhiên/nhẹ nhàng, có phủ bóng bảo vệ", 
-        "Luôn che chắn tóc khi ra nắng, hạn chế nhiệt từ máy sấy/máy tạo kiểu"
+        "Luôn che chắn tóc khi ra nắng, hạn chế nhiệt "
       ];
     }
 
