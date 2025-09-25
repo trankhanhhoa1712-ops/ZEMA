@@ -421,11 +421,11 @@ function calculateAverage() {
   }
 }
 </script>
-  
-   // Gán khuyến nghị
+ // Gán khuyến nghị
 let evaluation, recommendation, recommendations = [];
 if (avg >= 4.0) {
   evaluation = "Tóc khỏe";
+  recommendation = "Tóc bạn đang trong tình trạng tốt, cần duy trì chế độ chăm sóc định kỳ.";
   recommendations = [
     "Phục hồi tần xuất: 2 lần 1 tháng", 
     "Sử dụng các hoạt chất Protein Peptide, Collagen thuỷ phân", 
@@ -434,6 +434,7 @@ if (avg >= 4.0) {
   ];
 } else if (avg >= 3.0) {
   evaluation = "Tóc trung bình";
+  recommendation = "Tóc có dấu hiệu hư tổn nhẹ, cần chăm sóc phục hồi định kỳ.";
   recommendations = [
     "Phục hồi tần suất 2 lần 1 tháng", 
     "Sử dụng các hoạt chất Amino Acid, Keratin thuỷ phân", 
@@ -442,6 +443,7 @@ if (avg >= 4.0) {
   ];
 } else if (avg >= 2.0) {
   evaluation = "Tóc yếu";
+  recommendation = "Tóc yếu cần được phục hồi chuyên sâu và hạn chế tác động hóa chất.";
   recommendations = [
     "Phục hồi chuyên sâu 1 lần 1 tuần", 
     "Sử dụng các hoạt chất Amino Acid, Keratin, Collagen Thuỷ phân", 
@@ -450,6 +452,7 @@ if (avg >= 4.0) {
   ];
 } else if (avg >= 1.0) {
   evaluation = "Hư tổn nặng";
+  recommendation = "Tóc hư tổn nặng cần phục hồi tích cực và hạn chế tối đa hóa chất.";
   recommendations = [
     "Phục hồi chuyên sâu 2 lần 1 tuần", 
     "Sử dụng các hoạt chất Amino Acid, Keratin thuỷ phân, Collagen Thuỷ phân", 
@@ -457,11 +460,9 @@ if (avg >= 4.0) {
     "Hạn chế thực hiện uốn/duỗi", 
     "Có thể nhuộm màu cơ bản. Tuyệt đối không tẩy tóc"
   ];
-} else if  {
+} else {
   evaluation = "Hư tổn nghiêm trọng";
   recommendation = "Tuyệt đối không làm hóa chất. Tập trung phục hồi, bảo vệ tóc.";
-  scoreClass = "score-severe";
-  evaluationClass = "evaluation-severe";
   recommendations = [
     "Phục hồi chuyên sâu 2 lần/tuần",
     "Sử dụng hoạt chất Amino Acid, Keratin, Collagen, Protein peptide",
@@ -469,9 +470,6 @@ if (avg >= 4.0) {
     "Tuyệt đối không tẩy, uốn, duỗi",
     "Có thể nhuộm màu cơ bản nhẹ nhàng",
     "Luôn che chắn tóc khi ra nắng"
-  ];
-}
-
   ];
 }
 
@@ -491,4 +489,3 @@ document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
   alert("Vui lòng chấm điểm tất cả tiêu chí.");
 }
 }
-</script>
